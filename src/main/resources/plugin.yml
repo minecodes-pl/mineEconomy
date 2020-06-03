@@ -1,0 +1,26 @@
+name: mineEconomy
+version: ${project.version}
+main: pl.mineEconomy.Main
+api-version: 1.13
+authors: [_arturek]
+description: ekonomia
+website: https://arturek.site
+commands:
+  przelew:
+    aliases:
+      - pay
+  konto:
+    aliases:
+      - bank
+  wyplac:
+  wplac:
+  ekonomia:
+    aliases:
+      - eco
+  ecoa:
+    aliases:
+      - ecoadmin
+  bogacze:
+    aliases:
+      - ecotop
+      - baltop
