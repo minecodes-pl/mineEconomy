@@ -10,13 +10,13 @@ import java.sql.SQLException;
 public class DatabaseManager {
 
     private static Connection connection = null;
-    private static String URL = "jdbc:mysql://" + "51.83.145.95" + ":" + "3306" + "/" + "mineSurvival" + "?useUnicode=true&characterEncoding=utf-8";
+    private static String URL = "jdbc:mysql://" + "51.83.145.95" + ":" + "3306" + "/" + "mineServer" + "?useUnicode=true&characterEncoding=utf-8";
 
     public static void connect() {
         connection = null;
         Logger.mysql("Start connecting to database");
         try {
-            connection = DriverManager.getConnection(URL, "mineSurvival", "zgfD6MTLyt8g0GFq");
+            connection = DriverManager.getConnection(URL, "mineServer", "77xoJ4r6sYnc5qc9");
             Logger.mysql("Connected to database!");
 
         } catch (Exception e) {
