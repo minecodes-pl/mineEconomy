@@ -1,26 +1,7 @@
 name: mineEconomy
-version: 1.0-SNAPSHOT
-main: pl.mineEconomy.Main
+version: 2.0
+main: pl.arturekdev.mineEconomy.mineEconomy
 api-version: 1.13
 authors: [_arturek]
-description: ekonomia
-website: https://arturek.site
-commands:
-  przelew:
-    aliases:
-      - pay
-  konto:
-    aliases:
-      - bank
-  wyplac:
-  wplac:
-  ekonomia:
-    aliases:
-      - eco
-  ecoa:
-    aliases:
-      - ecoadmin
-  bogacze:
-    aliases:
-      - ecotop
-      - baltop
+description: Economy for CampFire.pl
+website: https://minecodes.pl/
