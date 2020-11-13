@@ -1,24 +1,19 @@
 package pl.arturekdev.mineEconomy.database;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
 import lombok.SneakyThrows;
+import pl.arturekdev.mineDatabase.DatabaseService;
 
 import java.sql.*;
 
 public class DatabaseConnector {
 
-    private final HikariDataSource datasource;
-    private Connection connection;
-
-    public DatabaseConnector() {
-        this.datasource = new HikariDataSource(getHikariConfiguration());
-    }
+    private final DatabaseService databaseService = new DatabaseService();
+    private Connection connection = databaseService.getConnection();
 
     @SneakyThrows
     public ResultSet executeQuery(String queryString) {
         if (checkConnection()) {
-            connection = getConnection();
+            connection = databaseService.getConnection();
         }
 
         PreparedStatement preparedStatement = connection.prepareStatement(queryString);
@@ -29,7 +24,7 @@ public class DatabaseConnector {
     @SneakyThrows
     public int executeUpdate(String queryString) {
         if (checkConnection()) {
-            connection = getConnection();
+            connection = databaseService.getConnection();
         }
 
         PreparedStatement preparedStatement = connection.prepareStatement(queryString);
@@ -41,22 +36,8 @@ public class DatabaseConnector {
     }
 
     @SneakyThrows
-    public void closeConnection() {
-        connection.close();
-    }
-
-    @SneakyThrows
-    public Connection getConnection() {
-        if (connection == null || connection.isClosed()) {
-            connection = datasource.getConnection();
-        }
-
-        return connection;
-    }
-
-    @SneakyThrows
     public void prepareCollection() {
-        Statement statement = getConnection().createStatement();
+        Statement statement = databaseService.getConnection().createStatement();
         StringBuilder sb = new StringBuilder();
 
         sb.append("create table if not exists `mineEconomyUsers`(");
@@ -72,27 +53,4 @@ public class DatabaseConnector {
         return connection == null || connection.isClosed();
     }
 
-    private HikariConfig getHikariConfiguration() {
-
-        HikariConfig hikariConfig = new HikariConfig();
-        hikariConfig.setJdbcUrl(String.format("jdbc:mysql://%s:%s/%s?allowMultiQueries=true&useUnicode=yes&characterEncoding=UTF-8",
-                "51.83.145.95",
-                3306,
-                "mineServer"));
-        hikariConfig.setUsername("mineServer");
-        hikariConfig.setPassword("77xoJ4r6sYnc5qc9");
-
-        hikariConfig.addDataSourceProperty("cachePrepStmts", "true");
-        hikariConfig.addDataSourceProperty("prepStmtCacheSize", "250");
-        hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
-        hikariConfig.addDataSourceProperty("useServerPrepStmts", "true");
-        hikariConfig.addDataSourceProperty("useLocalSessionState", "true");
-        hikariConfig.addDataSourceProperty("rewriteBatchedStatements", "true");
-        hikariConfig.addDataSourceProperty("cacheResultSetMetadata", "true");
-        hikariConfig.addDataSourceProperty("cacheServerConfiguration", "true");
-        hikariConfig.addDataSourceProperty("elideSetAutoCommits", "true");
-        hikariConfig.addDataSourceProperty("maintainTimeStats", "false");
-
-        return hikariConfig;
-    }
 }

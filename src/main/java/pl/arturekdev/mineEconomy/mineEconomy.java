@@ -41,6 +41,9 @@ public final class mineEconomy extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        super.onDisable();
+
+        UserManager userManager = new UserManager(databaseConnector);
+        UserManager.getUsers().forEach(user -> user.update(userManager));
+
     }
 }

@@ -38,6 +38,8 @@ public class User {
                 ") ON DUPLICATE KEY UPDATE " +
                 "money='" + this.money + "';";
 
+        this.update = false;
+
         userManager.getDatabaseConnector().executeUpdate(update);
     }
 
