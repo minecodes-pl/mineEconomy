@@ -8,31 +8,21 @@ import java.sql.*;
 public class DatabaseConnector {
 
     private final DatabaseService databaseService = new DatabaseService();
-    private Connection connection = databaseService.getConnection();
+
+    public Connection getConnection() {
+        return databaseService.getConnection();
+    }
 
     @SneakyThrows
     public ResultSet executeQuery(String queryString) {
-        if (checkConnection()) {
-            connection = databaseService.getConnection();
-        }
-
-        PreparedStatement preparedStatement = connection.prepareStatement(queryString);
-
+        PreparedStatement preparedStatement = getConnection().prepareStatement(queryString);
         return preparedStatement.executeQuery();
     }
 
     @SneakyThrows
-    public int executeUpdate(String queryString) {
-        if (checkConnection()) {
-            connection = databaseService.getConnection();
-        }
-
-        PreparedStatement preparedStatement = connection.prepareStatement(queryString);
-        int result = preparedStatement.executeUpdate();
-
+    public void executeUpdate(String queryString) {
+        PreparedStatement preparedStatement = getConnection().prepareStatement(queryString);
         preparedStatement.close();
-
-        return result;
     }
 
     @SneakyThrows
@@ -48,9 +38,4 @@ public class DatabaseConnector {
         statement.executeUpdate(sb.toString());
         statement.close();
     }
-
-    private boolean checkConnection() throws SQLException {
-        return connection == null || connection.isClosed();
-    }
-
 }

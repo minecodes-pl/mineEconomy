@@ -1,7 +1,0 @@
-name: mineEconomy
-version: 2.1
-main: pl.arturekdev.mineEconomy.mineEconomy
-api-version: 1.13
-authors: [_arturek]
-description: Economy for CampFire.pl
-website: https://minecodes.pl/

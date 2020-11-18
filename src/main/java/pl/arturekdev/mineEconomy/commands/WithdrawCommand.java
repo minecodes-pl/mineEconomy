@@ -4,7 +4,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import pl.arturekdev.mineEconomy.EconomyService;
 import pl.arturekdev.mineEconomy.commands.util.Command;
-import pl.arturekdev.mineEconomy.managers.GlobalManager;
+import pl.arturekdev.mineEconomy.utils.ItemUtil;
+import pl.arturekdev.mineEconomy.mineEconomy;
 import pl.arturekdev.mineEconomy.utils.MUtil;
 
 public class WithdrawCommand extends Command {
@@ -41,7 +42,7 @@ public class WithdrawCommand extends Command {
 
         economyService.takeMoney(p, value);
 
-        GlobalManager.giveItem(p, GlobalManager.getItemStack(value));
+        ItemUtil.giveItem(p, mineEconomy.getInstance().getPurse(value));
 
         MUtil.sendMsg(p, " &8>> &aWypłata sakiewki o wartości &e" + value + " Iskier &azostała zrealizowana pomyślnie!");
         return false;
