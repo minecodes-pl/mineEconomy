@@ -18,6 +18,14 @@ public class EconomyService {
 
     }
 
+    public int getMoney(Player target) {
+
+        User user = UserManager.getUser(target.getName());
+
+        return user.getMoney();
+
+    }
+
     public void transfer(Player sender, Player target, int value) {
 
         User senderUser = UserManager.getUser(sender.getName());
@@ -70,6 +78,7 @@ public class EconomyService {
         user.setUpdate(true);
 
     }
+
     public void setMoney(String target, int value) {
 
         User user = UserManager.getUser(target);
