@@ -21,12 +21,17 @@ public class RankingCommand extends Command {
         MUtil.sendMsg(sender, " ");
         MUtil.sendMsg(sender, " &eNajbogatsze osoby:");
         MUtil.sendMsg(sender, " ");
-        int top = 0;
+        int top = 1;
         Player player = (Player) sender;
         for (int i = 0; i < 10; i++) {
-            PlaceholderAPI.setPlaceholders(player, "&8#{top} &e%mineEco_top_name_{top}% &6>> %mineEco_top_value_{top}% &eIskier".replace("{top}", String.valueOf(i)));
+            if (i >= UserManager.getUsers().size()) {
+                MUtil.sendMsg(player, " &8#%top% &cBrak".replace("%top%", String.valueOf(top)));
+            } else {
+                MUtil.sendMsg(player, PlaceholderAPI.setPlaceholders(player, " &8#%top% &e%mineEco_top_name_%top%% &8>> &e%mineEco_top_value_%top%% Iskier".replace("%top%", String.valueOf(top))));
+            }
             top++;
         }
+        MUtil.sendMsg(sender, " ");
         return false;
     }
 }

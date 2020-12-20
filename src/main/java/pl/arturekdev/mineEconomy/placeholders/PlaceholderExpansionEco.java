@@ -37,13 +37,11 @@ public class PlaceholderExpansionEco extends PlaceholderExpansion {
 
             UserManager.getUsers().sort(new RankingSort());
 
-            User user = UserManager.getUsers().get(integer);
-
-            if (user == null) {
+            if (integer >= UserManager.getUsers().size()) {
                 return "Brak";
             }
 
-            return String.valueOf(user.getName());
+            return String.valueOf(UserManager.getUsers().get(integer).getName());
 
         }
 
@@ -54,13 +52,11 @@ public class PlaceholderExpansionEco extends PlaceholderExpansion {
 
             UserManager.getUsers().sort(new RankingSort());
 
-            User user = UserManager.getUsers().get(integer);
-
-            if (user == null) {
+            if (integer >= UserManager.getUsers().size()) {
                 return "Brak";
             }
 
-            return String.valueOf(user.getMoney());
+            return String.valueOf(UserManager.getUsers().get(integer).getMoney());
 
         }
 
