@@ -5,6 +5,9 @@ import org.bukkit.entity.Player;
 import pl.arturekdev.mineEconomy.comparator.RankingSort;
 import pl.arturekdev.mineEconomy.managers.UserManager;
 import pl.arturekdev.mineEconomy.objects.User;
+import pl.arturekdev.mineEconomy.utils.MUtil;
+
+import java.util.List;
 
 public class PlaceholderExpansionEco extends PlaceholderExpansion {
 
@@ -58,6 +61,23 @@ public class PlaceholderExpansionEco extends PlaceholderExpansion {
 
             return String.valueOf(UserManager.getUsers().get(integer).getMoney());
 
+        }
+
+        if (identifier.contains("format_")) {
+            String[] strings = identifier.split("format_");
+            int integer = Integer.parseInt(strings[1]) - 1;
+
+            List<User> users = UserManager.getUsers();
+
+            if (integer >= users.size()) {
+                return MUtil.fix("&cBrak");
+            }
+
+            users.sort(new RankingSort());
+
+            User user = users.get(integer);
+
+            return MUtil.fix("&e%name% &8⇒ &f%money% &eIskier").replace("%name%", user.getName()).replace("%money%", String.valueOf(user.getMoney()));
         }
 
 
