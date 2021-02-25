@@ -1,8 +1,7 @@
-package pl.arturekdev.mineEconomy.objects;
+package pl.arturekdev.mineEconomy.user;
 
 import lombok.Getter;
 import lombok.Setter;
-import pl.arturekdev.mineEconomy.managers.UserManager;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +11,9 @@ import java.sql.SQLException;
 public class User {
 
     private String name;
-    private int money;
+    private double money;
+    private double moneyFromAwards;
+    private long lastLimitAward;
     private boolean update;
 
     public User() {
@@ -22,11 +23,11 @@ public class User {
 
         this.name = rs.getString("nick");
         this.money = rs.getInt("money");
-        UserManager.getUsers().add(this);
+        UserService.getUsers().add(this);
 
     }
 
-    public void update(UserManager userManager) {
+    public void update(UserService userService) {
 
         if (!this.update) {
             return;
@@ -40,7 +41,7 @@ public class User {
 
         this.update = false;
 
-        userManager.getDatabaseConnector().executeUpdate(update);
+        userService.getDatabaseConnector().executeUpdate(update);
     }
 
 }

@@ -1,46 +1,71 @@
 package pl.arturekdev.mineEconomy;
 
-import de.tr7zw.changeme.nbtapi.NBTItem;
-import lombok.Getter;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
-import pl.arturekdev.mineEconomy.database.DatabaseConnector;
-import pl.arturekdev.mineEconomy.listeners.PlayerInteractListener;
-import pl.arturekdev.mineEconomy.managers.CommandManager;
-import pl.arturekdev.mineEconomy.managers.UserManager;
-import pl.arturekdev.mineEconomy.placeholders.PlaceholderExpansionEco;
-import pl.arturekdev.mineEconomy.runnable.UserUpdateRunnable;
-import pl.arturekdev.mineEconomy.utils.ItemBuilder;
-
-import java.util.Random;
+import net.milkbowl.vault.economy.*;
+import org.bukkit.*;
+import org.bukkit.plugin.*;
+import org.bukkit.plugin.java.*;
+import pl.arturekdev.mineEconomy.command.*;
+import pl.arturekdev.mineEconomy.config.*;
+import pl.arturekdev.mineEconomy.database.*;
+import pl.arturekdev.mineEconomy.placeholder.*;
+import pl.arturekdev.mineEconomy.task.*;
+import pl.arturekdev.mineEconomy.user.*;
+import pl.arturekdev.mineEconomy.vault.*;
 
 public final class mineEconomy extends JavaPlugin {
 
     private static mineEconomy instance;
-    @Getter
-    private DatabaseConnector databaseConnector;
+    private static Economy economy;
+    private static EcoConfiguration ecoConfiguration;
+    private static EcoMessages ecoMessages;
+    private static VaultHook vaultHook;
+    private VaultManager vaultManager;
+    private UserService userService;
 
     public static mineEconomy getInstance() {
         return instance;
+    }
+
+    public static EcoConfiguration getEcoConfiguration() {
+        return ecoConfiguration;
+    }
+
+    public static EcoMessages getEcoMessages() {
+        return ecoMessages;
+    }
+
+    public VaultManager getVaultManager() {
+        return vaultManager;
     }
 
     @Override
     public void onEnable() {
         instance = this;
 
-        databaseConnector = new DatabaseConnector();
+        ConfigurationLoader<EcoConfiguration> ecoConfigurationLoader = ConfigurationLoader.create(this.getDataFolder().toPath(), "configuration.yml", EcoConfiguration.class);
+        ecoConfigurationLoader.reloadConfig();
+        ecoConfiguration = ecoConfigurationLoader.getConfigData();
+
+        ConfigurationLoader<EcoMessages> ecoMessagesLoader = ConfigurationLoader.create(this.getDataFolder().toPath(), "messages.yml", EcoMessages.class);
+        ecoMessagesLoader.reloadConfig();
+        ecoMessages = ecoMessagesLoader.getConfigData();
+
+        vaultManager = new VaultManager(ecoConfiguration);
+        vaultHook = new VaultHook(vaultManager);
+        vaultHook.hook();
+
+        DatabaseConnector databaseConnector = new DatabaseConnector();
         databaseConnector.prepareCollection();
 
-        UserManager userManager = new UserManager(databaseConnector);
-        userManager.loadUsers();
+        userService = new UserService(databaseConnector);
+        userService.loadUsers();
 
-        CommandManager commandManager = new CommandManager();
-        commandManager.registerCommands();
+        setupEconomy();
 
-        Bukkit.getScheduler().runTaskTimerAsynchronously(this, new UserUpdateRunnable(userManager), 60, 60);
-        Bukkit.getPluginManager().registerEvents(new PlayerInteractListener(), this);
+        getCommand("money").setExecutor(new EconomyCommand(ecoMessages));
+
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, new UserUpdateTask(userService), 60, 60);
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, new PlayTimePrizeTask(ecoConfiguration, ecoMessages), ecoConfiguration.playTimePrizeTask(), ecoConfiguration.playTimePrizeTask());
 
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new PlaceholderExpansionEco().register();
@@ -50,30 +75,20 @@ public final class mineEconomy extends JavaPlugin {
     @Override
     public void onDisable() {
 
-        UserManager userManager = new UserManager(databaseConnector);
-        UserManager.getUsers().forEach(user -> user.update(userManager));
+        vaultHook.unhook();
+        UserService.getUsers().forEach(user -> user.update(userService));
 
     }
 
-    public ItemStack getPurse(int value) {
-
-        ItemBuilder itemBuilder = new ItemBuilder(Material.GLOWSTONE_DUST);
-
-        itemBuilder.setAmount(1);
-        itemBuilder.setTitle(" &8>> &6&lSakiewka Iskier &8<<");
-        itemBuilder.addLore(" ");
-        itemBuilder.addLore(" &8>> &7W sakiewce znajduje się: &e" + value + " Iskier");
-        itemBuilder.addLore(" ");
-        itemBuilder.addLore("&e&nKliknij prawym trzymając aby wpłacić!");
-
-        NBTItem nbtItem = new NBTItem(itemBuilder.build());
-
-
-        nbtItem.setInteger("RANDOM", new Random().nextInt());
-        nbtItem.setInteger("VALUE", value);
-        nbtItem.setString("PURSE", "SPARKS");
-
-        return nbtItem.getItem();
-
+    private boolean setupEconomy() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return false;
+        }
+        economy = rsp.getProvider();
+        return economy != null;
     }
 }

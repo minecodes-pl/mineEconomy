@@ -4,5 +4,7 @@ main: pl.arturekdev.mineEconomy.mineEconomy
 api-version: 1.13
 authors: [ _arturek ]
 description: Economy for CampFire.pl
-depend: [ mineDatabase ]
+depend: [ mineDatabase, Vault ]
 website: https://minecodes.pl/
+commands:
+  money:
