@@ -114,17 +114,17 @@ public class VaultManager implements Economy {
 
     @Override
     public boolean has(String playerName, double amount) {
-        return economyService.has(playerName, amount);
+        return EconomyService.hasStatic(playerName, amount);
     }
 
     @Override
     public boolean has(OfflinePlayer player, double amount) {
-        return economyService.has(player.getName(), amount);
+        return EconomyService.hasStatic(player.getName(), amount);
     }
 
     @Override
     public boolean has(String playerName, String worldName, double amount) {
-        return economyService.has(playerName, amount);
+        return EconomyService.hasStatic(playerName, amount);
     }
 
     @Override
@@ -134,26 +134,43 @@ public class VaultManager implements Economy {
 
     @Override
     public EconomyResponse withdrawPlayer(String playerName, double amount) {
-        economyService.takeMoney(playerName, amount);
-        return new EconomyResponse(amount, UserService.getUser(playerName).getMoney(), EconomyResponse.ResponseType.SUCCESS, "Brak możliwości pobrania pieniędzy.");
+        if (has(playerName, amount)) {
+            economyService.takeMoney(playerName, amount);
+            return new EconomyResponse(amount, UserService.getUser(playerName).getMoney(), EconomyResponse.ResponseType.SUCCESS, "Brak możliwości pobrania pieniędzy.");
+        } else {
+            return new EconomyResponse(amount, UserService.getUser(playerName).getMoney(), EconomyResponse.ResponseType.FAILURE, "Brak możliwości pobrania pieniędzy.");
+        }
     }
+
 
     @Override
     public EconomyResponse withdrawPlayer(OfflinePlayer player, double amount) {
-        economyService.takeMoney(player.getName(), (int) amount);
-        return new EconomyResponse(amount, UserService.getUser(player.getName()).getMoney(), EconomyResponse.ResponseType.SUCCESS, "Brak możliwości pobrania pieniędzy.");
+        if (has(player, amount)) {
+            economyService.takeMoney(player.getName(), amount);
+            return new EconomyResponse(amount, UserService.getUser(player.getName()).getMoney(), EconomyResponse.ResponseType.SUCCESS, "Brak możliwości pobrania pieniędzy.");
+        } else {
+            return new EconomyResponse(amount, UserService.getUser(player.getName()).getMoney(), EconomyResponse.ResponseType.FAILURE, "Brak możliwości pobrania pieniędzy.");
+        }
     }
 
     @Override
     public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
-        economyService.takeMoney(playerName, (int) amount);
-        return new EconomyResponse(amount, UserService.getUser(playerName).getMoney(), EconomyResponse.ResponseType.SUCCESS, "Brak możliwości pobrania pieniędzy.");
+        if (has(playerName, amount)) {
+            economyService.takeMoney(playerName, amount);
+            return new EconomyResponse(amount, UserService.getUser(playerName).getMoney(), EconomyResponse.ResponseType.SUCCESS, "Brak możliwości pobrania pieniędzy.");
+        } else {
+            return new EconomyResponse(amount, UserService.getUser(playerName).getMoney(), EconomyResponse.ResponseType.FAILURE, "Brak możliwości pobrania pieniędzy.");
+        }
     }
 
     @Override
     public EconomyResponse withdrawPlayer(OfflinePlayer player, String worldName, double amount) {
-        economyService.takeMoney(player.getName(), (int) amount);
-        return new EconomyResponse(amount, UserService.getUser(player.getName()).getMoney(), EconomyResponse.ResponseType.SUCCESS, "Brak możliwości pobrania pieniędzy.");
+        if (has(player.getName(), amount)) {
+            economyService.takeMoney(player.getName(), amount);
+            return new EconomyResponse(amount, UserService.getUser(player.getName()).getMoney(), EconomyResponse.ResponseType.SUCCESS, "Brak możliwości pobrania pieniędzy.");
+        } else {
+            return new EconomyResponse(amount, UserService.getUser(player.getName()).getMoney(), EconomyResponse.ResponseType.FAILURE, "Brak możliwości pobrania pieniędzy.");
+        }
     }
 
     @Override

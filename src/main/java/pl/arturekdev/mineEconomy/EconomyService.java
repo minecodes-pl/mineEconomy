@@ -7,6 +7,29 @@ import java.text.*;
 
 public class EconomyService {
 
+    public static boolean hasStatic(Player target, double value) {
+
+        User user = UserService.getUser(target.getName());
+
+        if (value < 0) {
+            return false;
+        }
+
+        return user.getMoney() >= value;
+    }
+
+    public static boolean hasStatic(String target, double value) {
+
+        User user = UserService.getUser(target);
+
+        if (value < 0) {
+            return false;
+        }
+
+        return user.getMoney() >= value;
+
+    }
+
     public boolean has(Player target, double value) {
 
         User user = UserService.getUser(target.getName());
@@ -28,7 +51,6 @@ public class EconomyService {
         }
 
         return user.getMoney() >= value;
-
     }
 
     public double getMoney(Player target) {
@@ -43,7 +65,6 @@ public class EconomyService {
 
         User senderUser = UserService.getUser(sender.getName());
         User targetUser = UserService.getUser(target.getName());
-
 
         DecimalFormat decimalFormat = new DecimalFormat(mineEconomy.getEcoConfiguration().format());
         value = Double.parseDouble(decimalFormat.format(value));
@@ -87,6 +108,12 @@ public class EconomyService {
         DecimalFormat decimalFormat = new DecimalFormat(mineEconomy.getEcoConfiguration().format());
         value = Double.parseDouble(decimalFormat.format(value));
 
+        if (value < 0) {
+            user.setMoney(0);
+            user.setUpdate(true);
+            return;
+        }
+
         user.setMoney(user.getMoney() - value);
         user.setUpdate(true);
 
@@ -98,6 +125,12 @@ public class EconomyService {
 
         DecimalFormat decimalFormat = new DecimalFormat(mineEconomy.getEcoConfiguration().format());
         value = Double.parseDouble(decimalFormat.format(value));
+
+        if (value < 0) {
+            user.setMoney(0);
+            user.setUpdate(true);
+            return;
+        }
 
         user.setMoney(user.getMoney() - value);
         user.setUpdate(true);
