@@ -2,16 +2,16 @@ package pl.arturekdev.mineEconomy.vault;
 
 import net.milkbowl.vault.economy.*;
 import org.bukkit.*;
-import pl.arturekdev.mineEconomy.*;
 import pl.arturekdev.mineEconomy.config.*;
 import pl.arturekdev.mineEconomy.user.*;
 
+import java.text.DecimalFormat;
 import java.util.*;
 
 public class VaultManager implements Economy {
 
-    private final EconomyService economyService = new EconomyService();
     private final EcoConfiguration ecoConfiguration;
+    private DecimalFormat format = new DecimalFormat("###,###,###,###.##");
 
     public VaultManager(EcoConfiguration ecoConfiguration) {
         this.ecoConfiguration = ecoConfiguration;
@@ -39,7 +39,7 @@ public class VaultManager implements Economy {
 
     @Override
     public String format(double amount) {
-        return "Błędny format kwoty.";
+        return ecoConfiguration.currencyFormat().replace("{amount}", this.format.format(amount)).replace("{currencyName}", currencyNameSingular());
     }
 
     @Override
@@ -114,87 +114,140 @@ public class VaultManager implements Economy {
 
     @Override
     public boolean has(String playerName, double amount) {
-        return EconomyService.hasStatic(playerName, amount);
+        User user = UserService.getUser(playerName);
+        if (user.getMoney() < 0){
+            user.setMoney(0);
+            user.setUpdate(true);
+            return false;
+        }
+        return user.getMoney() >= amount;
     }
 
     @Override
     public boolean has(OfflinePlayer player, double amount) {
-        return EconomyService.hasStatic(player.getName(), amount);
+        User user = UserService.getUser(player.getName());
+        if (user.getMoney() < 0){
+            user.setMoney(0);
+            user.setUpdate(true);
+            return false;
+        }
+        return user.getMoney() >= amount;
     }
 
     @Override
     public boolean has(String playerName, String worldName, double amount) {
-        return EconomyService.hasStatic(playerName, amount);
+        User user = UserService.getUser(playerName);
+        if (user.getMoney() < 0){
+            user.setMoney(0);
+            user.setUpdate(true);
+            return false;
+        }
+        return user.getMoney() >= amount;
     }
 
     @Override
     public boolean has(OfflinePlayer player, String worldName, double amount) {
-        return economyService.has(player.getName(), amount);
+        User user = UserService.getUser(player.getName());
+        if (user.getMoney() < 0){
+            user.setMoney(0);
+            user.setUpdate(true);
+            return false;
+        }
+        return user.getMoney() >= amount;
     }
 
     @Override
     public EconomyResponse withdrawPlayer(String playerName, double amount) {
-        if (has(playerName, amount)) {
-            economyService.takeMoney(playerName, amount);
-            return new EconomyResponse(amount, UserService.getUser(playerName).getMoney(), EconomyResponse.ResponseType.SUCCESS, "Brak możliwości pobrania pieniędzy.");
+        User user = UserService.getUser(playerName);
+        double balance = user.getMoney();
+        if (amount > balance) {
+            return new EconomyResponse(amount, balance, EconomyResponse.ResponseType.FAILURE, "Could not withdraw player!");
         } else {
-            return new EconomyResponse(amount, UserService.getUser(playerName).getMoney(), EconomyResponse.ResponseType.FAILURE, "Brak możliwości pobrania pieniędzy.");
+            balance -= amount;
         }
+        user.setMoney(balance);
+        return new EconomyResponse(amount, balance, EconomyResponse.ResponseType.SUCCESS, "Could not withdraw player!");
     }
 
 
     @Override
     public EconomyResponse withdrawPlayer(OfflinePlayer player, double amount) {
-        if (has(player, amount)) {
-            economyService.takeMoney(player.getName(), amount);
-            return new EconomyResponse(amount, UserService.getUser(player.getName()).getMoney(), EconomyResponse.ResponseType.SUCCESS, "Brak możliwości pobrania pieniędzy.");
+        User user = UserService.getUser(player.getName());
+        double balance = user.getMoney();
+        if (amount > balance) {
+            return new EconomyResponse(amount, balance, EconomyResponse.ResponseType.FAILURE, "Could not withdraw player!");
         } else {
-            return new EconomyResponse(amount, UserService.getUser(player.getName()).getMoney(), EconomyResponse.ResponseType.FAILURE, "Brak możliwości pobrania pieniędzy.");
+            balance -= amount;
         }
+        user.setMoney(balance);
+        return new EconomyResponse(amount, balance, EconomyResponse.ResponseType.SUCCESS, "Could not withdraw player!");
     }
 
     @Override
     public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
-        if (has(playerName, amount)) {
-            economyService.takeMoney(playerName, amount);
-            return new EconomyResponse(amount, UserService.getUser(playerName).getMoney(), EconomyResponse.ResponseType.SUCCESS, "Brak możliwości pobrania pieniędzy.");
+        User user = UserService.getUser(playerName);
+        double balance = user.getMoney();
+        if (amount > balance) {
+            return new EconomyResponse(amount, balance, EconomyResponse.ResponseType.FAILURE, "Could not withdraw player!");
         } else {
-            return new EconomyResponse(amount, UserService.getUser(playerName).getMoney(), EconomyResponse.ResponseType.FAILURE, "Brak możliwości pobrania pieniędzy.");
+            balance -= amount;
         }
+        user.setMoney(balance);
+        return new EconomyResponse(amount, balance, EconomyResponse.ResponseType.SUCCESS, "Could not withdraw player!");
     }
 
     @Override
     public EconomyResponse withdrawPlayer(OfflinePlayer player, String worldName, double amount) {
-        if (has(player.getName(), amount)) {
-            economyService.takeMoney(player.getName(), amount);
-            return new EconomyResponse(amount, UserService.getUser(player.getName()).getMoney(), EconomyResponse.ResponseType.SUCCESS, "Brak możliwości pobrania pieniędzy.");
+        User user = UserService.getUser(player.getName());
+        double balance = user.getMoney();
+        if (amount > balance) {
+            return new EconomyResponse(amount, balance, EconomyResponse.ResponseType.FAILURE, "Could not withdraw player!");
         } else {
-            return new EconomyResponse(amount, UserService.getUser(player.getName()).getMoney(), EconomyResponse.ResponseType.FAILURE, "Brak możliwości pobrania pieniędzy.");
+            balance -= amount;
         }
+        user.setMoney(balance);
+        return new EconomyResponse(amount, balance, EconomyResponse.ResponseType.SUCCESS, "Could not withdraw player!");
     }
 
     @Override
     public EconomyResponse depositPlayer(String playerName, double amount) {
-        economyService.giveMoney(playerName, (int) amount);
-        return new EconomyResponse(amount, UserService.getUser(playerName).getMoney(), EconomyResponse.ResponseType.SUCCESS, "Brak możliwości dodania pieniędzy.");
+
+        User user = UserService.getUser(playerName);
+        double balance = user.getMoney();
+        balance += amount;
+        user.setMoney(balance);
+
+        return new EconomyResponse(amount, balance, EconomyResponse.ResponseType.SUCCESS, "Could not deposit player!");
     }
 
     @Override
     public EconomyResponse depositPlayer(OfflinePlayer player, double amount) {
-        economyService.giveMoney(player.getName(), (int) amount);
-        return new EconomyResponse(amount, UserService.getUser(player.getName()).getMoney(), EconomyResponse.ResponseType.SUCCESS, "Brak możliwości dodania pieniędzy.");
+        User user = UserService.getUser(player.getName());
+        double balance = user.getMoney();
+        balance += amount;
+        user.setMoney(balance);
+
+        return new EconomyResponse(amount, balance, EconomyResponse.ResponseType.SUCCESS, "Could not deposit player!");
     }
 
     @Override
     public EconomyResponse depositPlayer(String playerName, String worldName, double amount) {
-        economyService.giveMoney(playerName, (int) amount);
-        return new EconomyResponse(amount, UserService.getUser(playerName).getMoney(), EconomyResponse.ResponseType.SUCCESS, "Brak możliwości dodania pieniędzy.");
+        User user = UserService.getUser(playerName);
+        double balance = user.getMoney();
+        balance += amount;
+        user.setMoney(balance);
+
+        return new EconomyResponse(amount, balance, EconomyResponse.ResponseType.SUCCESS, "Could not deposit player!");
     }
 
     @Override
     public EconomyResponse depositPlayer(OfflinePlayer player, String worldName, double amount) {
-        economyService.giveMoney(player.getName(), (int) amount);
-        return new EconomyResponse(amount, UserService.getUser(player.getName()).getMoney(), EconomyResponse.ResponseType.SUCCESS, "Brak możliwości dodania pieniędzy.");
+        User user = UserService.getUser(player.getName());
+        double balance = user.getMoney();
+        balance += amount;
+        user.setMoney(balance);
+
+        return new EconomyResponse(amount, balance, EconomyResponse.ResponseType.SUCCESS, "Could not deposit player!");
     }
 
     @Override

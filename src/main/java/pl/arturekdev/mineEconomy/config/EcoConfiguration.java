@@ -27,4 +27,6 @@ public interface EcoConfiguration {
     @ConfDefault.DefaultInteger(60)
     int playTimePrizeTask();
 
+    @ConfDefault.DefaultString("{currencyName}{amount}")
+    String currencyFormat();
 }
