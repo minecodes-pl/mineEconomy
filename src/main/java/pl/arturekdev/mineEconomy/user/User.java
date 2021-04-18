@@ -29,10 +29,6 @@ public class User {
 
     public void update(UserService userService) {
 
-        if (!this.update) {
-            return;
-        }
-
         String update = "INSERT INTO mineEconomyUsers (nick, money) VALUES (" +
                 "'" + this.name + "'," +
                 "'" + this.money + "'" +

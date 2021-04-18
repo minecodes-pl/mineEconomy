@@ -7,6 +7,7 @@ import org.bukkit.plugin.java.*;
 import pl.arturekdev.mineEconomy.command.*;
 import pl.arturekdev.mineEconomy.config.*;
 import pl.arturekdev.mineEconomy.database.*;
+import pl.arturekdev.mineEconomy.listener.PlayerQuitListener;
 import pl.arturekdev.mineEconomy.placeholder.*;
 import pl.arturekdev.mineEconomy.task.*;
 import pl.arturekdev.mineEconomy.user.*;
@@ -63,6 +64,7 @@ public final class mineEconomy extends JavaPlugin {
         setupEconomy();
 
         getCommand("money").setExecutor(new EconomyCommand(ecoMessages));
+        Bukkit.getPluginManager().registerEvents(new PlayerQuitListener(userService), this);
 
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, new UserUpdateTask(userService), 60, 60);
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, new PlayTimePrizeTask(ecoConfiguration, ecoMessages), ecoConfiguration.playTimePrizeTask(), ecoConfiguration.playTimePrizeTask());
@@ -76,8 +78,7 @@ public final class mineEconomy extends JavaPlugin {
     public void onDisable() {
 
         vaultHook.unhook();
-        UserService.getUsers().forEach(user -> user.update(userService));
-
+        UserService.getUsers().listIterator().forEachRemaining(user -> user.update(userService));
     }
 
     private boolean setupEconomy() {

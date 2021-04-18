@@ -12,7 +12,12 @@ public class UserUpdateTask implements Runnable {
 
     @Override
     public void run() {
-        UserService.getUsers().forEach(user -> user.update(userService));
+        UserService.getUsers().listIterator().forEachRemaining(user -> {
+            if (user.isUpdate()) {
+                user.update(userService);
+            }
+        });
+        //UserService.getUsers().forEach(user -> user.update(userService));
     }
 
 }
