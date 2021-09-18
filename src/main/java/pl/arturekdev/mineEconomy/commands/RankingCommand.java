@@ -10,7 +10,6 @@ import pl.arturekdev.mineEconomy.utils.MUtil;
 
 public class RankingCommand extends Command {
 
-
     public RankingCommand() {
         super("baltop", "Top najbogadszych", "/baltop", "mineEconomy.ranking", "bogacze", "najbogadsi");
     }
