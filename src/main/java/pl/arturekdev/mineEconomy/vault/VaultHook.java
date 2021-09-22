@@ -17,12 +17,12 @@ public class VaultHook {
 
 
     public void hook() {
-        Bukkit.getServicesManager().register(Economy.class, this.provider, mineEconomy.getInstance(), ServicePriority.Highest);
+        Bukkit.getServicesManager().register(Economy.class, this.provider, EconomyPlugin.getInstance(), ServicePriority.Highest);
         Bukkit.getLogger().log(Level.INFO, ChatColor.GREEN + "Hooked into Vault!");
     }
 
     public void unhook() {
-        provider = mineEconomy.getInstance().getVaultManager();
+        provider = EconomyPlugin.getInstance().getVaultManager();
         Bukkit.getServicesManager().unregister(Economy.class, this.provider);
     }
 

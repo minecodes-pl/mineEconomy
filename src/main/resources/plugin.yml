@@ -1,6 +1,6 @@
 name: mineEconomy
 version: ${project.version}
-main: pl.arturekdev.mineEconomy.mineEconomy
+main: pl.arturekdev.mineEconomy.EconomyPlugin
 api-version: 1.13
 authors: [ _arturek ]
 description: Economy for CampFire.pl

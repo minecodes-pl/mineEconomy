@@ -13,17 +13,16 @@ import pl.arturekdev.mineEconomy.task.*;
 import pl.arturekdev.mineEconomy.user.*;
 import pl.arturekdev.mineEconomy.vault.*;
 
-public final class mineEconomy extends JavaPlugin {
+public final class EconomyPlugin extends JavaPlugin {
 
-    private static mineEconomy instance;
-    private static Economy economy;
+    private static EconomyPlugin instance;
     private static EcoConfiguration ecoConfiguration;
     private static EcoMessages ecoMessages;
     private static VaultHook vaultHook;
     private VaultManager vaultManager;
     private UserService userService;
 
-    public static mineEconomy getInstance() {
+    public static EconomyPlugin getInstance() {
         return instance;
     }
 
@@ -40,9 +39,7 @@ public final class mineEconomy extends JavaPlugin {
     }
 
     @Override
-    public void onEnable() {
-        instance = this;
-
+    public void onLoad() {
         ConfigurationLoader<EcoConfiguration> ecoConfigurationLoader = ConfigurationLoader.create(this.getDataFolder().toPath(), "configuration.yml", EcoConfiguration.class);
         ecoConfigurationLoader.reloadConfig();
         ecoConfiguration = ecoConfigurationLoader.getConfigData();
@@ -54,6 +51,11 @@ public final class mineEconomy extends JavaPlugin {
         vaultManager = new VaultManager(ecoConfiguration);
         vaultHook = new VaultHook(vaultManager);
         vaultHook.hook();
+    }
+
+    @Override
+    public void onEnable() {
+        instance = this;
 
         DatabaseConnector databaseConnector = new DatabaseConnector();
         databaseConnector.prepareCollection();
@@ -89,7 +91,7 @@ public final class mineEconomy extends JavaPlugin {
         if (rsp == null) {
             return false;
         }
-        economy = rsp.getProvider();
+        Economy economy = rsp.getProvider();
         return economy != null;
     }
 }

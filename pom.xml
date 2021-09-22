@@ -72,7 +72,7 @@
         </repository>
         <repository>
             <id>minecodes-repo</id>
-            <url>http://panel.minecodes.pl:1303/</url>
+            <url>https://repo.minecodes.pl/</url>
         </repository>
         <repository>
             <id>codemc-repo</id>

@@ -1,6 +1,5 @@
 package pl.arturekdev.mineEconomy.command;
 
-import org.bukkit.*;
 import org.bukkit.command.*;
 import pl.arturekdev.mineEconomy.*;
 import pl.arturekdev.mineEconomy.command.util.*;
@@ -49,7 +48,7 @@ public class SetCommand extends SubCommand {
             return;
         }
 
-        DecimalFormat decimalFormat = new DecimalFormat(mineEconomy.getEcoConfiguration().format());
+        DecimalFormat decimalFormat = new DecimalFormat(EconomyPlugin.getEcoConfiguration().format());
         value = Double.parseDouble(decimalFormat.format(value));
 
         economyService.setMoney(user.getName(), value);

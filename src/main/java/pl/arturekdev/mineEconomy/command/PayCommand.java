@@ -51,7 +51,7 @@ public class PayCommand extends SubCommand {
             return;
         }
 
-        DecimalFormat decimalFormat = new DecimalFormat(mineEconomy.getEcoConfiguration().format());
+        DecimalFormat decimalFormat = new DecimalFormat(EconomyPlugin.getEcoConfiguration().format());
         value = Double.parseDouble(decimalFormat.format(value));
         if (!economyService.has(player, value)) {
             MessageUtil.sendMessage(sender, ecoMessages.dontHaveFunds());

@@ -48,7 +48,7 @@ public class GiveCommand extends SubCommand {
             return;
         }
 
-        DecimalFormat decimalFormat = new DecimalFormat(mineEconomy.getEcoConfiguration().format());
+        DecimalFormat decimalFormat = new DecimalFormat(EconomyPlugin.getEcoConfiguration().format());
         value = Double.parseDouble(decimalFormat.format(value));
         economyService.giveMoney(user.getName(), value);
 

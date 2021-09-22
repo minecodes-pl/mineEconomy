@@ -66,7 +66,7 @@ public class EconomyService {
         User senderUser = UserService.getUser(sender.getName());
         User targetUser = UserService.getUser(target.getName());
 
-        DecimalFormat decimalFormat = new DecimalFormat(mineEconomy.getEcoConfiguration().format());
+        DecimalFormat decimalFormat = new DecimalFormat(EconomyPlugin.getEcoConfiguration().format());
         value = Double.parseDouble(decimalFormat.format(value));
 
         senderUser.setMoney(senderUser.getMoney() - value);
@@ -81,7 +81,7 @@ public class EconomyService {
 
         User user = UserService.getUser(target.getName());
 
-        DecimalFormat decimalFormat = new DecimalFormat(mineEconomy.getEcoConfiguration().format());
+        DecimalFormat decimalFormat = new DecimalFormat(EconomyPlugin.getEcoConfiguration().format());
         value = Double.parseDouble(decimalFormat.format(value));
 
         user.setMoney(user.getMoney() + value);
@@ -93,7 +93,7 @@ public class EconomyService {
 
         User user = UserService.getUser(target);
 
-        DecimalFormat decimalFormat = new DecimalFormat(mineEconomy.getEcoConfiguration().format());
+        DecimalFormat decimalFormat = new DecimalFormat(EconomyPlugin.getEcoConfiguration().format());
         value = Double.parseDouble(decimalFormat.format(value));
 
         user.setMoney(user.getMoney() + value);
@@ -105,7 +105,7 @@ public class EconomyService {
 
         User user = UserService.getUser(target.getName());
 
-        DecimalFormat decimalFormat = new DecimalFormat(mineEconomy.getEcoConfiguration().format());
+        DecimalFormat decimalFormat = new DecimalFormat(EconomyPlugin.getEcoConfiguration().format());
         value = Double.parseDouble(decimalFormat.format(value));
 
         if (value < 0) {
@@ -123,7 +123,7 @@ public class EconomyService {
 
         User user = UserService.getUser(target);
 
-        DecimalFormat decimalFormat = new DecimalFormat(mineEconomy.getEcoConfiguration().format());
+        DecimalFormat decimalFormat = new DecimalFormat(EconomyPlugin.getEcoConfiguration().format());
         value = Double.parseDouble(decimalFormat.format(value));
 
         if (value < 0) {
@@ -141,7 +141,7 @@ public class EconomyService {
 
         User user = UserService.getUser(target.getName());
 
-        DecimalFormat decimalFormat = new DecimalFormat(mineEconomy.getEcoConfiguration().format());
+        DecimalFormat decimalFormat = new DecimalFormat(EconomyPlugin.getEcoConfiguration().format());
         value = Double.parseDouble(decimalFormat.format(value));
 
         user.setMoney(value);
@@ -153,7 +153,7 @@ public class EconomyService {
 
         User user = UserService.getUser(target);
 
-        DecimalFormat decimalFormat = new DecimalFormat(mineEconomy.getEcoConfiguration().format());
+        DecimalFormat decimalFormat = new DecimalFormat(EconomyPlugin.getEcoConfiguration().format());
         value = Double.parseDouble(decimalFormat.format(value));
 
         user.setMoney(value);
