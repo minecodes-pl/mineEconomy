@@ -11,6 +11,8 @@ import pl.minecodes.mineeconomy.command.player.TransferCommand;
 import pl.minecodes.mineeconomy.data.configuration.Configuration;
 import pl.minecodes.mineeconomy.data.configuration.Messages;
 import pl.minecodes.mineeconomy.data.configuration.helper.ConfigurationFactory;
+import pl.minecodes.mineeconomy.hook.VaultHook;
+import pl.minecodes.mineeconomy.hook.VaultManager;
 import pl.minecodes.mineeconomy.profile.ProfileService;
 
 import java.util.Locale;
@@ -21,6 +23,7 @@ public class EconomyPlugin extends JavaPlugin {
     private Messages messages;
     private Configuration configuration;
     private ProfileService profileService;
+    private VaultHook vaultHook;
 
     @Override
     public void onEnable() {
@@ -29,13 +32,21 @@ public class EconomyPlugin extends JavaPlugin {
                 .registerInjectable(this.getLogger());
 
         this.loadConfiguration();
+
         this.profileService = this.injector.createInstance(ProfileService.class);
         this.injector.registerInjectable(profileService);
+
         this.registerCommands();
+
+        VaultManager vaultManager = this.injector.createInstance(VaultManager.class);
+        this.injector.registerInjectable(vaultManager);
+        vaultHook = this.injector.createInstance(VaultHook.class);
+        vaultHook.registerHook();
     }
 
     @Override
     public void onDisable() {
+        vaultHook.unregisterHook();
     }
 
     private void loadConfiguration() {
