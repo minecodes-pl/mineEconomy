@@ -11,7 +11,7 @@ import pl.minecodes.mineeconomy.data.configuration.Messages;
 import pl.minecodes.mineeconomy.profile.Profile;
 import pl.minecodes.mineeconomy.profile.ProfileService;
 import pl.minecodes.mineeconomy.util.MessageUtil;
-import pl.minecodes.mineeconomy.util.PlaceholderUtil;
+import pl.minecodes.mineeconomy.util.Placeholders;
 
 @CommandAlias("balance|money|bal|account")
 public class BalanceCommand extends BaseCommand {
@@ -23,10 +23,10 @@ public class BalanceCommand extends BaseCommand {
     @Default
     public void onPlayerBalanceCheck(Player player) {
         Profile profile = this.profileService.getProfile(player.getUniqueId());
-        MessageUtil.sendMessage(player, PlaceholderUtil.replace(this.messages.getBalanceCheck(),
+        MessageUtil.sendMessage(player, Placeholders.replace(this.messages.getBalanceCheck(),
                 ImmutableMap.of(
-                        "balance", String.valueOf(profile.getBalance()),
-                        "currency", this.configuration.getCurrency())));
+                        "balance", profile.getBalance(),
+                        "currency", this.configuration.getCurrency(profile.getBalance()))));
     }
 
 }

@@ -13,7 +13,7 @@ import pl.minecodes.mineeconomy.profile.Profile;
 import pl.minecodes.mineeconomy.profile.ProfileService;
 import pl.minecodes.mineeconomy.profile.helper.BalanceOperationCallback;
 import pl.minecodes.mineeconomy.util.MessageUtil;
-import pl.minecodes.mineeconomy.util.PlaceholderUtil;
+import pl.minecodes.mineeconomy.util.Placeholders;
 
 import java.util.Collections;
 import java.util.Objects;
@@ -52,11 +52,11 @@ public class EconomyCommand extends BaseCommand {
         profile.setupBalance(balance, new BalanceOperationCallback() {
             @Override
             public void done() {
-                MessageUtil.sendMessage(sender, PlaceholderUtil.replace(messages.getBalanceSuccessfullySet(),
+                MessageUtil.sendMessage(sender, Placeholders.replace(messages.getBalanceSuccessfullySet(),
                         ImmutableMap.of(
                                 "player", Objects.requireNonNull(offlinePlayer.getName(), "OfflinePlayer name is null."),
                                 "balance", balance,
-                                "currency", configuration.getCurrency())));
+                                "currency", configuration.getCurrency(balance))));
             }
 
             @Override
@@ -82,11 +82,11 @@ public class EconomyCommand extends BaseCommand {
         profile.deposit(value, new BalanceOperationCallback() {
             @Override
             public void done() {
-                MessageUtil.sendMessage(sender, PlaceholderUtil.replace(messages.getBalanceSuccessfullyDeposit(),
+                MessageUtil.sendMessage(sender, Placeholders.replace(messages.getBalanceSuccessfullyDeposit(),
                         ImmutableMap.of(
                                 "player", Objects.requireNonNull(offlinePlayer.getName(), "OfflinePlayer name is null."),
                                 "value", value,
-                                "currency", configuration.getCurrency())));
+                                "currency", configuration.getCurrency(value))));
             }
 
             @Override
@@ -112,11 +112,11 @@ public class EconomyCommand extends BaseCommand {
         profile.withdraw(value, new BalanceOperationCallback() {
             @Override
             public void done() {
-                MessageUtil.sendMessage(sender, PlaceholderUtil.replace(messages.getBalanceSuccessfullyWithdraw(),
+                MessageUtil.sendMessage(sender, Placeholders.replace(messages.getBalanceSuccessfullyWithdraw(),
                         ImmutableMap.of(
                                 "player", Objects.requireNonNull(offlinePlayer.getName(), "OfflinePlayer name is null."),
                                 "value", value,
-                                "currency", configuration.getCurrency())));
+                                "currency", configuration.getCurrency(value))));
             }
 
             @Override
@@ -152,7 +152,7 @@ public class EconomyCommand extends BaseCommand {
         profile.setupBalance(0, new BalanceOperationCallback() {
             @Override
             public void done() {
-                MessageUtil.sendMessage(sender, PlaceholderUtil.replace(messages.getBalanceSuccessfullyClear(),
+                MessageUtil.sendMessage(sender, Placeholders.replace(messages.getBalanceSuccessfullyClear(),
                         Collections.singletonMap("player", Objects.requireNonNull(offlinePlayer.getName(), "OfflinePlayer name is null."))));
             }
 
@@ -176,10 +176,10 @@ public class EconomyCommand extends BaseCommand {
         }
 
         Profile profile = this.profileService.getProfile(offlinePlayer.getUniqueId());
-        MessageUtil.sendMessage(sender, PlaceholderUtil.replace(this.messages.getBalanceAdministratorCheck(),
+        MessageUtil.sendMessage(sender, Placeholders.replace(this.messages.getBalanceAdministratorCheck(),
                 ImmutableMap.of(
                         "player", Objects.requireNonNull(offlinePlayer.getName(), "OfflinePlayer name is null."),
                         "balance", profile.getBalance(),
-                        "currency", this.configuration.getCurrency())));
+                        "currency", this.configuration.getCurrency(profile.getBalance()))));
     }
 }
