@@ -2,12 +2,17 @@ package pl.minecodes.mineeconomy.profile;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import eu.okaeri.injector.annotation.Inject;
+import pl.minecodes.mineeconomy.data.configuration.Configuration;
 
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class ProfileService {
+
+    @Inject
+    private Configuration configuration;
 
     private final Cache<UUID, Profile> profilesCache = Caffeine.newBuilder()
             .expireAfterWrite(30, TimeUnit.MINUTES)
@@ -26,6 +31,6 @@ public class ProfileService {
     private Profile loadingProfile(UUID uniqueId) {
         //todo loading profile from database
         //if profile in not exists in database create new.
-        return new Profile(uniqueId);
+        return new Profile(uniqueId, this.configuration);
     }
 }
