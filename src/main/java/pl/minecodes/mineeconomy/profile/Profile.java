@@ -1,5 +1,6 @@
 package pl.minecodes.mineeconomy.profile;
 
+import pl.minecodes.mineeconomy.data.configuration.Configuration;
 import pl.minecodes.mineeconomy.profile.helper.BalanceOperationCallback;
 
 import java.util.UUID;
@@ -9,9 +10,9 @@ public class Profile {
     private final UUID uniqueId;
     private double balance;
 
-    public Profile(UUID uniqueId) {
+    public Profile(UUID uniqueId, Configuration configuration) {
         this.uniqueId = uniqueId;
-        this.balance = 0;
+        this.balance = configuration.getStartBalance();
     }
 
     public UUID getUniqueId() {
@@ -22,11 +23,6 @@ public class Profile {
         return balance;
     }
 
-    /**
-     * Deposit money for player.
-     *
-     * @param money how much deposit for player.
-     */
     public void deposit(double money, BalanceOperationCallback callback) {
         if (money < 0) {
             callback.cancel(BalanceOperationCallback.CancelReason.NEGATIVE_PARAMETER);
@@ -37,11 +33,6 @@ public class Profile {
         this.balance += money;
     }
 
-    /**
-     * Withdraw moneys form player balance.
-     *
-     * @param money how much withdraw money.
-     */
     public void withdraw(double money, BalanceOperationCallback callback) {
         if (this.balance < 0) {
             callback.cancel(BalanceOperationCallback.CancelReason.NEGATIVE_BALANCE);
@@ -60,11 +51,6 @@ public class Profile {
         this.balance -= money;
     }
 
-    /**
-     * Setup player balance.
-     *
-     * @param balance balance weight.
-     */
     public void setupBalance(double balance, BalanceOperationCallback callback) {
         if (balance < 0) {
             callback.cancel(BalanceOperationCallback.CancelReason.NEGATIVE_PARAMETER);
@@ -74,4 +60,9 @@ public class Profile {
         callback.done();
         this.balance = balance;
     }
+
+    public boolean has(double value) {
+        return this.balance >= value;
+    }
+
 }
