@@ -15,15 +15,18 @@ import java.util.*;
 @Names(strategy = NameStrategy.HYPHEN_CASE, modifier = NameModifier.TO_LOWER_CASE)
 public class Messages extends OkaeriConfig {
 
-    private String balanceCheck = "&8Aktualnie posidasz: &e{balance} {currency}";
-    private String balanceSuccessfullySet = "&aPomyślnie ustawiono stan konta gracza &e{player} &ana &e{value} {currency}";
+    private String balanceCheck = "&aAktualnie posidasz: &e{balance} {currency}";
+    private String balanceSuccessfullySet = "&aPomyślnie ustawiono stan konta gracza &e{player} &ana &e{balance} {currency}";
     private String balanceSuccessfullyDeposit = "&aPomyslnie dodano &e{value} {currency} &ado konta gracza &e{player}";
     private String balanceSuccessfullyWithdraw = "&aPomyslnie pobrano z konta gracza &e{player} &asume &e{value} {currency}";
     private String balanceSuccessfullyClear = "&aPomyslnie wyzerowano stan konta gracza &e{player}";
+    private String balanceSuccessfullyTransferToSender = "&aPomyślnie przelano &e{value} {currency} &ana konto gracza &e{target}";
+    private String balanceSuccessfullyTransferToTarget = "&aOtrzymałeś przelew w wysokości &e{value} {currency} &aod gracza &e{sender}";
     private String balanceAdministratorCheck = "&aStan konta gracza &e{player} &awynosi &e{balance} {currency}";
     private String balanceOperationParameterIsNegative = "&cPodana liczba jest mniejsza od zera.";
     private String balanceWithdrawNoFounds = "&cGracz nie posiada danej kwoty na koncie.";
     private String balanceIsNegative = "&cKonto gracza jest na minusie.";
+    private String balanceNoFounds = "&cBrak wymaganych środków na koncie.";
 
     private List<String> economyAdminCommands = new ArrayList<>(Arrays.asList(
             " ",
