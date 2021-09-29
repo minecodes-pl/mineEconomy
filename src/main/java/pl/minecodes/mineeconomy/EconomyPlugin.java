@@ -7,6 +7,7 @@ import eu.okaeri.injector.OkaeriInjector;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.minecodes.mineeconomy.command.admin.EconomyCommand;
 import pl.minecodes.mineeconomy.command.player.BalanceCommand;
+import pl.minecodes.mineeconomy.command.player.TransferCommand;
 import pl.minecodes.mineeconomy.data.configuration.Configuration;
 import pl.minecodes.mineeconomy.data.configuration.Messages;
 import pl.minecodes.mineeconomy.data.configuration.helper.ConfigurationFactory;
@@ -23,13 +24,13 @@ public class EconomyPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        this.profileService = new ProfileService();
         this.injector = OkaeriInjector.create()
                 .registerInjectable(this)
-                .registerInjectable(this.getLogger())
-                .registerInjectable(profileService);
+                .registerInjectable(this.getLogger());
 
         this.loadConfiguration();
+        this.profileService = this.injector.createInstance(ProfileService.class);
+        this.injector.registerInjectable(profileService);
         this.registerCommands();
     }
 
@@ -49,6 +50,7 @@ public class EconomyPlugin extends JavaPlugin {
         BukkitCommandManager commandManager = new BukkitCommandManager(this);
         commandManager.registerCommand(this.injector.createInstance(BalanceCommand.class));
         commandManager.registerCommand(this.injector.createInstance(EconomyCommand.class));
+        commandManager.registerCommand(this.injector.createInstance(TransferCommand.class));
 
         commandManager.getLocales().setDefaultLocale(Locale.ENGLISH);
         BukkitLocales locales = commandManager.getLocales();
