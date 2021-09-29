@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class PlaceholderUtil {
+public class Placeholders {
 
     public static String replace(String string, Map<String, Object> placeholders) {
         AtomicReference<String> atomicString = new AtomicReference<>(string);
