@@ -16,9 +16,12 @@ import pl.minecodes.mineeconomy.util.Placeholders;
 @CommandAlias("balance|money|bal|account")
 public class BalanceCommand extends BaseCommand {
 
-    @Inject private Messages messages;
-    @Inject private Configuration configuration;
-    @Inject private ProfileService profileService;
+    @Inject
+    private Messages messages;
+    @Inject
+    private Configuration configuration;
+    @Inject
+    private ProfileService profileService;
 
     @Default
     public void onPlayerBalanceCheck(Player player) {
