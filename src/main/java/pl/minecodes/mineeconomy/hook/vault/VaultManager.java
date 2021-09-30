@@ -5,6 +5,7 @@ import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import pl.minecodes.mineeconomy.EconomyPlugin;
 import pl.minecodes.mineeconomy.data.configuration.Configuration;
 import pl.minecodes.mineeconomy.profile.Profile;
 import pl.minecodes.mineeconomy.profile.ProfileService;
@@ -16,8 +17,6 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class VaultManager implements Economy {
-
-    private final DecimalFormat FORMAT = new DecimalFormat("###,###,###,###.##");
 
     @Inject
     private Configuration configuration;
@@ -48,11 +47,11 @@ public class VaultManager implements Economy {
     public String format(double value) {
         switch (this.configuration.getCurrencyPositionVault()) {
             case AHEAD:
-                return this.configuration.getCurrency(value) + this.FORMAT.format(value);
+                return this.configuration.getCurrency(value) + EconomyPlugin.FORMAT.format(value);
             case BEHIND:
-                return this.FORMAT.format(value) + this.configuration.getCurrency(value);
+                return EconomyPlugin.FORMAT.format(value) + this.configuration.getCurrency(value);
         }
-        return this.configuration.getCurrency(value) + this.FORMAT.format(value);
+        return this.configuration.getCurrency(value) + EconomyPlugin.FORMAT.format(value);
     }
 
     @Override

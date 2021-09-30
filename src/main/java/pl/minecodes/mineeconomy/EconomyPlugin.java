@@ -18,9 +18,12 @@ import pl.minecodes.mineeconomy.hook.vault.VaultHook;
 import pl.minecodes.mineeconomy.hook.vault.VaultManager;
 import pl.minecodes.mineeconomy.profile.ProfileService;
 
+import java.text.DecimalFormat;
 import java.util.Locale;
 
 public class EconomyPlugin extends JavaPlugin {
+
+    public static final DecimalFormat FORMAT = new DecimalFormat("#.##");
 
     private Injector injector;
     private Messages messages;
@@ -50,7 +53,7 @@ public class EconomyPlugin extends JavaPlugin {
         vaultHook.registerHook();
 
         PlaceholderAPIHook papiHook = this.injector.createInstance(PlaceholderAPIHook.class);
-        papiHook.register();
+        papiHook.registerHook();
     }
 
     @Override

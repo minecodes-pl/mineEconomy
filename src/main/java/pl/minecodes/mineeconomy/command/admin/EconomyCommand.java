@@ -3,10 +3,12 @@ package pl.minecodes.mineeconomy.command.admin;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.util.concurrent.AtomicDouble;
 import eu.okaeri.injector.annotation.Inject;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
+import pl.minecodes.mineeconomy.EconomyPlugin;
 import pl.minecodes.mineeconomy.data.configuration.Configuration;
 import pl.minecodes.mineeconomy.data.configuration.Messages;
 import pl.minecodes.mineeconomy.profile.Profile;
@@ -42,6 +44,8 @@ public class EconomyCommand extends BaseCommand {
     @Description("Setup player balance.")
     @CommandCompletion("@players 10|100|1000|10000")
     public void onAdministratorSetBalance(CommandSender sender, String username, double balance) {
+        AtomicDouble atomicBalance = new AtomicDouble(Double.parseDouble(EconomyPlugin.FORMAT.format(balance)));
+
         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayerIfCached(username);
         if (offlinePlayer == null) {
             MessageUtil.sendMessage(sender, this.messages.getPlayerIsNotExistsInCache());
@@ -49,14 +53,14 @@ public class EconomyCommand extends BaseCommand {
         }
 
         Profile profile = this.profileService.getProfile(offlinePlayer.getUniqueId());
-        profile.setupBalance(balance, new BalanceOperationCallback() {
+        profile.setupBalance(atomicBalance.get(), new BalanceOperationCallback() {
             @Override
             public void done() {
                 MessageUtil.sendMessage(sender, Placeholders.replace(messages.getBalanceSuccessfullySet(),
                         ImmutableMap.of(
                                 "player", Objects.requireNonNull(offlinePlayer.getName(), "OfflinePlayer name is null."),
-                                "balance", balance,
-                                "currency", configuration.getCurrency(balance))));
+                                "balance", atomicBalance.get(),
+                                "currency", configuration.getCurrency(atomicBalance.get()))));
             }
 
             @Override
@@ -72,6 +76,8 @@ public class EconomyCommand extends BaseCommand {
     @Description("Deposit money to player balance.")
     @CommandCompletion("@players 10|100|1000|10000")
     public void onAdministratorDepositMoney(CommandSender sender, String username, double value) {
+        AtomicDouble atomicValue = new AtomicDouble(Double.parseDouble(EconomyPlugin.FORMAT.format(value)));
+
         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayerIfCached(username);
         if (offlinePlayer == null) {
             MessageUtil.sendMessage(sender, this.messages.getPlayerIsNotExistsInCache());
@@ -79,14 +85,14 @@ public class EconomyCommand extends BaseCommand {
         }
 
         Profile profile = this.profileService.getProfile(offlinePlayer.getUniqueId());
-        profile.deposit(value, new BalanceOperationCallback() {
+        profile.deposit(atomicValue.get(), new BalanceOperationCallback() {
             @Override
             public void done() {
                 MessageUtil.sendMessage(sender, Placeholders.replace(messages.getBalanceSuccessfullyDeposit(),
                         ImmutableMap.of(
                                 "player", Objects.requireNonNull(offlinePlayer.getName(), "OfflinePlayer name is null."),
-                                "value", value,
-                                "currency", configuration.getCurrency(value))));
+                                "value", atomicValue.get(),
+                                "currency", configuration.getCurrency(atomicValue.get()))));
             }
 
             @Override
@@ -102,6 +108,8 @@ public class EconomyCommand extends BaseCommand {
     @Description("Withdraw money from player balance.")
     @CommandCompletion("@players 10|100|1000|10000")
     public void onAdministratorWithdrawMoney(CommandSender sender, String username, double value) {
+        AtomicDouble atomicValue = new AtomicDouble(Double.parseDouble(EconomyPlugin.FORMAT.format(value)));
+
         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayerIfCached(username);
         if (offlinePlayer == null) {
             MessageUtil.sendMessage(sender, this.messages.getPlayerIsNotExistsInCache());
@@ -109,14 +117,14 @@ public class EconomyCommand extends BaseCommand {
         }
 
         Profile profile = this.profileService.getProfile(offlinePlayer.getUniqueId());
-        profile.withdraw(value, new BalanceOperationCallback() {
+        profile.withdraw(atomicValue.get(), new BalanceOperationCallback() {
             @Override
             public void done() {
                 MessageUtil.sendMessage(sender, Placeholders.replace(messages.getBalanceSuccessfullyWithdraw(),
                         ImmutableMap.of(
                                 "player", Objects.requireNonNull(offlinePlayer.getName(), "OfflinePlayer name is null."),
-                                "value", value,
-                                "currency", configuration.getCurrency(value))));
+                                "value", atomicValue.get(),
+                                "currency", configuration.getCurrency(atomicValue.get()))));
             }
 
             @Override

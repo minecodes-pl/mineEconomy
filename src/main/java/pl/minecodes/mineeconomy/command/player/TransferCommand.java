@@ -4,8 +4,10 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.util.concurrent.AtomicDouble;
 import eu.okaeri.injector.annotation.Inject;
 import org.bukkit.entity.Player;
+import pl.minecodes.mineeconomy.EconomyPlugin;
 import pl.minecodes.mineeconomy.data.configuration.Configuration;
 import pl.minecodes.mineeconomy.data.configuration.Messages;
 import pl.minecodes.mineeconomy.profile.Profile;
@@ -13,6 +15,8 @@ import pl.minecodes.mineeconomy.profile.ProfileService;
 import pl.minecodes.mineeconomy.profile.helper.BalanceOperationCallback;
 import pl.minecodes.mineeconomy.util.MessageUtil;
 import pl.minecodes.mineeconomy.util.Placeholders;
+
+import java.text.DecimalFormat;
 
 @CommandAlias("transfer|pay")
 public class TransferCommand extends BaseCommand {
@@ -28,29 +32,30 @@ public class TransferCommand extends BaseCommand {
     @Syntax("<username> <value>")
     @CommandCompletion("@players 10|100|1000|10000")
     public void onPlayerTransfer(Player sender, OnlinePlayer target, double value) {
+        AtomicDouble atomicValue = new AtomicDouble(Double.parseDouble(EconomyPlugin.FORMAT.format(value)));
 
         Profile senderProfile = this.profileService.getProfile(sender.getUniqueId());
-        if (!(senderProfile.has(value))) {
+        if (!(senderProfile.has(atomicValue.get()))) {
             MessageUtil.sendMessage(sender, this.messages.getBalanceNoFounds());
             return;
         }
 
         Profile targetProfile = this.profileService.getProfile(target.getPlayer().getUniqueId());
-        targetProfile.deposit(value, new BalanceOperationCallback() {
+        targetProfile.deposit(atomicValue.get(), new BalanceOperationCallback() {
             @Override
             public void done() {
                 MessageUtil.sendMessage(sender, Placeholders.replace(messages.getBalanceSuccessfullyTransferToSender(),
                         ImmutableMap.of(
                                 "target", target.getPlayer().getName(),
-                                "value", value,
-                                "currency", configuration.getCurrency(value)
+                                "value", atomicValue.get(),
+                                "currency", configuration.getCurrency(atomicValue.get())
                         )));
 
                 MessageUtil.sendMessage(sender, Placeholders.replace(messages.getBalanceSuccessfullyTransferToTarget(),
                         ImmutableMap.of(
                                 "sender", sender.getName(),
-                                "value", value,
-                                "currency", configuration.getCurrency(value)
+                                "value", atomicValue.get(),
+                                "currency", configuration.getCurrency(atomicValue.get())
                         )));
             }
 
