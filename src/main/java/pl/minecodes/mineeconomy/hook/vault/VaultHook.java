@@ -1,4 +1,4 @@
-package pl.minecodes.mineeconomy.hook;
+package pl.minecodes.mineeconomy.hook.vault;
 
 import eu.okaeri.injector.annotation.Inject;
 import net.milkbowl.vault.economy.Economy;
