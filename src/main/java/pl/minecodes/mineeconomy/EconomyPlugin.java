@@ -35,6 +35,8 @@ public class EconomyPlugin extends JavaPlugin {
                 .registerInjectable(this.getLogger());
 
         this.loadConfiguration();
+        this.injector.registerInjectable(configuration);
+        this.injector.registerInjectable(messages);
 
         this.profileService = this.injector.createInstance(ProfileService.class);
         this.injector.registerInjectable(profileService);
@@ -60,8 +62,6 @@ public class EconomyPlugin extends JavaPlugin {
         ConfigurationFactory configurationFactory = new ConfigurationFactory(this.getDataFolder());
         configuration = configurationFactory.produce(Configuration.class, "configuration.yml");
         messages = configurationFactory.produce(Messages.class, "messages.yml");
-        this.injector.registerInjectable(configuration);
-        this.injector.registerInjectable(messages);
     }
 
     private void registerCommands() {
