@@ -4,6 +4,8 @@ import co.aikar.commands.BukkitCommandManager;
 import co.aikar.commands.BukkitLocales;
 import eu.okaeri.injector.Injector;
 import eu.okaeri.injector.OkaeriInjector;
+import me.clip.placeholderapi.PlaceholderAPI;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.minecodes.mineeconomy.command.admin.EconomyCommand;
 import pl.minecodes.mineeconomy.command.player.BalanceCommand;
@@ -11,8 +13,9 @@ import pl.minecodes.mineeconomy.command.player.TransferCommand;
 import pl.minecodes.mineeconomy.data.configuration.Configuration;
 import pl.minecodes.mineeconomy.data.configuration.Messages;
 import pl.minecodes.mineeconomy.data.configuration.helper.ConfigurationFactory;
-import pl.minecodes.mineeconomy.hook.VaultHook;
-import pl.minecodes.mineeconomy.hook.VaultManager;
+import pl.minecodes.mineeconomy.hook.placeholderapi.PlaceholderAPIHook;
+import pl.minecodes.mineeconomy.hook.vault.VaultHook;
+import pl.minecodes.mineeconomy.hook.vault.VaultManager;
 import pl.minecodes.mineeconomy.profile.ProfileService;
 
 import java.util.Locale;
@@ -40,8 +43,12 @@ public class EconomyPlugin extends JavaPlugin {
 
         VaultManager vaultManager = this.injector.createInstance(VaultManager.class);
         this.injector.registerInjectable(vaultManager);
+
         vaultHook = this.injector.createInstance(VaultHook.class);
         vaultHook.registerHook();
+
+        PlaceholderAPIHook papiHook = this.injector.createInstance(PlaceholderAPIHook.class);
+        papiHook.register();
     }
 
     @Override
