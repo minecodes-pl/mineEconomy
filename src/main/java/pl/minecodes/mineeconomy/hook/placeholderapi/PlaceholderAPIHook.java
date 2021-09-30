@@ -10,8 +10,12 @@ import pl.minecodes.mineeconomy.data.configuration.Configuration;
 import pl.minecodes.mineeconomy.profile.Profile;
 import pl.minecodes.mineeconomy.profile.ProfileService;
 
+import java.util.logging.Logger;
+
 public class PlaceholderAPIHook extends PlaceholderExpansion {
 
+    @Inject
+    private Logger logger;
     @Inject
     private JavaPlugin plugin;
     @Inject
@@ -47,5 +51,10 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
             }
         }
         return "";
+    }
+
+    public void registerHook() {
+        this.register();
+        this.logger.info("Successfully register PlaceholderAPI hook!");
     }
 }
