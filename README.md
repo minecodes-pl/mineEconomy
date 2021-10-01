@@ -2,12 +2,27 @@
 <br>
 <br>
 <br>
-<b>Commands:</b>
-* <b>/balance</b> - For check account balance.
+<br>
+<b>Database types</b>
+* mongoDb
+* MySQL
+<br>
 
 <br>
 
-<b>Admin commands</b>
+<b>Placeholders (PlaceholderAPI)</b>
+* %mineEconomy_balance%
+<br>
+
+<br>
+
+<b>Player command</b>
+* <b>/balance \ bal \ account \ money</b> - For check account balance.
+<br>
+
+<br>
+
+<b>Administrator commands</b>
 * <b>/eco help</b> - Admin commands list.
 * <b>/eco check </username/></b> - Check player balance.
 * <b>/eco clear </username/></b> - Clear player balance.
