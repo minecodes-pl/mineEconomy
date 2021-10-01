@@ -13,10 +13,14 @@ import pl.minecodes.mineeconomy.command.player.TransferCommand;
 import pl.minecodes.mineeconomy.data.configuration.Configuration;
 import pl.minecodes.mineeconomy.data.configuration.Messages;
 import pl.minecodes.mineeconomy.data.configuration.helper.ConfigurationFactory;
+import pl.minecodes.mineeconomy.data.database.MongoDbService;
+import pl.minecodes.mineeconomy.data.database.MySQLService;
+import pl.minecodes.mineeconomy.data.database.element.model.DataService;
 import pl.minecodes.mineeconomy.hook.placeholderapi.PlaceholderAPIHook;
 import pl.minecodes.mineeconomy.hook.vault.VaultHook;
 import pl.minecodes.mineeconomy.hook.vault.VaultManager;
 import pl.minecodes.mineeconomy.profile.ProfileService;
+import pl.minecodes.mineeconomy.runnable.ProfileSaveTask;
 
 import java.text.DecimalFormat;
 import java.util.Locale;
@@ -41,6 +45,21 @@ public class EconomyPlugin extends JavaPlugin {
         this.injector.registerInjectable(configuration);
         this.injector.registerInjectable(messages);
 
+        DataService dataService;
+        switch (this.configuration.getDatabaseData().getDatabaseType()) {
+            case MYSQL:
+                dataService = this.injector.createInstance(MySQLService.class);
+                dataService.connect();
+                break;
+            case MONGODB:
+                dataService = this.injector.createInstance(MongoDbService.class);
+                dataService.connect();
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + this.configuration.getDatabaseData().getDatabaseType());
+        }
+        this.injector.registerInjectable(dataService);
+
         this.profileService = this.injector.createInstance(ProfileService.class);
         this.injector.registerInjectable(profileService);
 
@@ -54,6 +73,8 @@ public class EconomyPlugin extends JavaPlugin {
 
         PlaceholderAPIHook papiHook = this.injector.createInstance(PlaceholderAPIHook.class);
         papiHook.registerHook();
+
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, this.injector.createInstance(ProfileSaveTask.class), 40, 40);
     }
 
     @Override

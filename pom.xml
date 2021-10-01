@@ -133,7 +133,7 @@
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
-            <version>5.0.0</version>
+            <version>4.0.3</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -141,6 +141,10 @@
             <version>1.18.20</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>3.12.10</version>
+        </dependency>
     </dependencies>
-
 </project>

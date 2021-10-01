@@ -10,9 +10,17 @@ public class Profile {
     private final UUID uniqueId;
     private double balance;
 
+    private boolean needUpdate;
+
     public Profile(UUID uniqueId, Configuration configuration) {
         this.uniqueId = uniqueId;
         this.balance = configuration.getStartBalance();
+        this.needUpdate = true;
+    }
+
+    public Profile(UUID uniqueId, double balance) {
+        this.uniqueId = uniqueId;
+        this.balance = balance;
     }
 
     public UUID getUniqueId() {
@@ -31,6 +39,7 @@ public class Profile {
 
         callback.done();
         this.balance += money;
+        this.needUpdate = true;
     }
 
     public void withdraw(double money, BalanceOperationCallback callback) {
@@ -49,6 +58,7 @@ public class Profile {
 
         callback.done();
         this.balance -= money;
+        this.needUpdate = true;
     }
 
     public void setupBalance(double balance, BalanceOperationCallback callback) {
@@ -59,10 +69,18 @@ public class Profile {
 
         callback.done();
         this.balance = balance;
+        this.needUpdate = true;
     }
 
     public boolean has(double value) {
         return this.balance >= value;
     }
 
+    public boolean needUpdate() {
+        return needUpdate;
+    }
+
+    public void needUpdate(boolean b) {
+        this.needUpdate = b;
+    }
 }

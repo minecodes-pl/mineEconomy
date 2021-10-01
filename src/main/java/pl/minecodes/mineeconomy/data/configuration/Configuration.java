@@ -3,16 +3,18 @@ package pl.minecodes.mineeconomy.data.configuration;
 import eu.okaeri.configs.OkaeriConfig;
 import eu.okaeri.configs.annotation.Comment;
 import eu.okaeri.pluralize.Pluralize;
+import pl.minecodes.mineeconomy.data.database.element.DatabaseData;
 
 import java.util.Locale;
 
 public class Configuration extends OkaeriConfig {
 
     @Comment("Nazwy waluty w odmianach.")
-    private String currency = "Iskre|Iskry|Iskier";
+    private String currency = " Iskre| Iskry| Iskier";
     private CurrencyPositionVault currencyPositionVault = CurrencyPositionVault.BEHIND;
     @Comment("Początkowy stan konta gracza.")
     private double startBalance = 10;
+    private DatabaseData databaseData = new DatabaseData();
 
 
     public String getCurrency(double value) {
@@ -44,6 +46,19 @@ public class Configuration extends OkaeriConfig {
     @Deprecated
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public DatabaseData getDatabaseData() {
+        return databaseData;
+    }
+
+    @Deprecated
+    public void setDatabaseData(DatabaseData databaseData) {
+        this.databaseData = databaseData;
     }
 
     public enum CurrencyPositionVault {AHEAD, BEHIND}
