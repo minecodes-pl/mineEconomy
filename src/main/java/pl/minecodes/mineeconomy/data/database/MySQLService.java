@@ -41,7 +41,6 @@ public class MySQLService implements DataService {
             preparedStatement.setString(1, profile.getUniqueId().toString());
             preparedStatement.setDouble(2, profile.getBalance());
             preparedStatement.executeUpdate();
-            this.logger.info("Successfully updated profile by uniqueId " + profile.getUniqueId() + " to MySQL data.");
         } catch (SQLException exception) {
             this.logger.severe("There was an unexpected incident, while trying to save profile with id " + profile.getUniqueId());
             exception.printStackTrace();
@@ -68,6 +67,11 @@ public class MySQLService implements DataService {
             exception.printStackTrace();
             this.logger.severe("There was an unexpected incident, while trying to create plots table");
         }
+    }
+
+    @Override
+    public Profile order(int order) {
+        return null;
     }
 
     private Connection getConnection() throws SQLException {

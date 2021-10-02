@@ -8,6 +8,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
+import com.mongodb.client.model.Sorts;
 import eu.okaeri.injector.annotation.Inject;
 import org.bson.Document;
 import pl.minecodes.mineeconomy.data.configuration.Configuration;
@@ -58,5 +59,15 @@ public class MongoDbService implements DataService {
         MongoDatabase mongoDatabase = mongoClient.getDatabase(databaseData.getDatabase());
         mongoCollection = mongoDatabase.getCollection("economyUsers");
         this.logger.info("Successfully connected to MongoDb database.");
+    }
+
+    @Override
+    public Profile order(int order) {
+        int i = 1;
+        for (Document document : mongoCollection.find().sort(Sorts.descending("balance"))) {
+            if (i == order) return new Profile(UUID.fromString(document.getString("uniqueId")), document.getDouble("balance"));
+            i++;
+        }
+        return null;
     }
 }
