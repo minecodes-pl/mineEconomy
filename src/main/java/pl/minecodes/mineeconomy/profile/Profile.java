@@ -1,5 +1,7 @@
 package pl.minecodes.mineeconomy.profile;
 
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import pl.minecodes.mineeconomy.data.configuration.Configuration;
 import pl.minecodes.mineeconomy.profile.helper.BalanceOperationCallback;
 
@@ -21,6 +23,10 @@ public class Profile {
     public Profile(UUID uniqueId, double balance) {
         this.uniqueId = uniqueId;
         this.balance = balance;
+    }
+
+    public OfflinePlayer getPlayer(){
+        return Bukkit.getOfflinePlayer(uniqueId);
     }
 
     public UUID getUniqueId() {
