@@ -4,11 +4,11 @@ import co.aikar.commands.BukkitCommandManager;
 import co.aikar.commands.BukkitLocales;
 import eu.okaeri.injector.Injector;
 import eu.okaeri.injector.OkaeriInjector;
-import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.minecodes.mineeconomy.command.admin.EconomyCommand;
 import pl.minecodes.mineeconomy.command.player.BalanceCommand;
+import pl.minecodes.mineeconomy.command.player.RankingCommand;
 import pl.minecodes.mineeconomy.command.player.TransferCommand;
 import pl.minecodes.mineeconomy.data.configuration.Configuration;
 import pl.minecodes.mineeconomy.data.configuration.Messages;
@@ -93,6 +93,7 @@ public class EconomyPlugin extends JavaPlugin {
         commandManager.registerCommand(this.injector.createInstance(BalanceCommand.class));
         commandManager.registerCommand(this.injector.createInstance(EconomyCommand.class));
         commandManager.registerCommand(this.injector.createInstance(TransferCommand.class));
+        commandManager.registerCommand(this.injector.createInstance(RankingCommand.class));
 
         commandManager.getLocales().setDefaultLocale(Locale.ENGLISH);
         BukkitLocales locales = commandManager.getLocales();
