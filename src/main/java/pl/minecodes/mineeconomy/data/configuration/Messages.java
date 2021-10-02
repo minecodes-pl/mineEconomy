@@ -28,6 +28,13 @@ public class Messages extends OkaeriConfig {
     private String balanceIsNegative = "&cKonto gracza jest na minusie.";
     private String balanceNoFounds = "&cBrak wymaganych środków na koncie.";
 
+    private String balanceRankingNullObject = "&cBrak danych.";
+    private List<String> balanceRanking = new ArrayList<>(Arrays.asList(
+            "&8#1: &e{username} &7-> &a{balance} {currency}",
+            "&8#2: &e{username} &7-> &a{balance} {currency}",
+            "&8#3: &e{username} &7-> &a{balance} {currency}"
+    ));
+
     private List<String> economyAdminCommands = new ArrayList<>(Arrays.asList(
             " ",
             " &8* &e/eco help - Pokazule liste komend administratorskich.",
