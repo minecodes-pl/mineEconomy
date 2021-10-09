@@ -41,6 +41,18 @@ public class TransferCommand extends BaseCommand {
         }
 
         Profile targetProfile = this.profileService.getProfile(target.getPlayer().getUniqueId());
+        senderProfile.withdraw(atomicValue.get(), new BalanceOperationCallback() {
+            @Override
+            public void done() {
+                //ignore
+            }
+
+            @Override
+            public void cancel(CancelReason reason) {
+                //ignore
+            }
+        });
+
         targetProfile.deposit(atomicValue.get(), new BalanceOperationCallback() {
             @Override
             public void done() {
