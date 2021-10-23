@@ -1,3 +1,4 @@
+<a href="https://wakatime.com/badge/github/arturekdev/mineEconomy"><img src="https://wakatime.com/badge/github/arturekdev/mineEconomy.svg" alt="wakatime"></a><br>
 <b>mineEconomy</b> - Best economy plugin for you.
 <br>
 <br>
