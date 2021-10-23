@@ -17,6 +17,7 @@ import pl.minecodes.mineeconomy.util.MessageUtil;
 import pl.minecodes.mineeconomy.util.Placeholders;
 
 import java.text.DecimalFormat;
+import java.util.Objects;
 
 @CommandAlias("transfer|pay")
 public class TransferCommand extends BaseCommand {
@@ -63,7 +64,7 @@ public class TransferCommand extends BaseCommand {
                                 "currency", configuration.getCurrency(atomicValue.get())
                         )));
 
-                MessageUtil.sendMessage(sender, Placeholders.replace(messages.getBalanceSuccessfullyTransferToTarget(),
+                MessageUtil.sendMessage(Objects.requireNonNull(target.getPlayer().getPlayer()), Placeholders.replace(messages.getBalanceSuccessfullyTransferToTarget(),
                         ImmutableMap.of(
                                 "sender", sender.getName(),
                                 "value", atomicValue.get(),
