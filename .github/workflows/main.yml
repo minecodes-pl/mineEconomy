@@ -26,5 +26,5 @@ jobs:
       uses: 'actions/upload-artifact@v2'
       with:
         name: "${{ github.sha }}-JDK${{ matrix.java }}"
-        path: '*.jar'
+        path: '${{ GITHUB.WORKSPACE }}/target/mineEconomy-*.jar'
         if-no-files-found: error
