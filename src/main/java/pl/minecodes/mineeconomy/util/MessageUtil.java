@@ -12,10 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Collections;
 
 public class MessageUtil {
 
-    private static final Pattern hexPattern = Pattern.compile("#[a-fA-F0-9]{6}");
+    private static final Pattern HEX_REGEX = Pattern.compile("#[a-fA-F0-9]{6}");
 
     private MessageUtil() {
     }
@@ -29,10 +30,10 @@ public class MessageUtil {
     }
 
     public static String implementColors(String message) {
-        if (message == null) {
-            return null;
+        if (message == null || message.isEmpty()) {
+            return "";
         }
-        for (Matcher matcher = hexPattern.matcher(message); matcher.find(); matcher = hexPattern.matcher(message)) {
+        for (Matcher matcher = HEX_REGEX.matcher(message); matcher.find(); matcher = HEX_REGEX.matcher(message)) {
             String color = message.substring(matcher.start(), matcher.end());
             message = message.replace(color, ChatColor.of(color) + "");
         }
@@ -41,9 +42,11 @@ public class MessageUtil {
     }
 
     public static List<String> implementColors(List<String> message) {
-        if (message == null) {
-            return null;
+        if (message == null || message.isEmpty()) {
+            return Collections.emptyList();
         }
+        
+        //TODO 06/11/2021: Naprawić syf kod
         List<String> messages = new ArrayList<>();
         message.forEach(s -> messages.add(implementColors(s)));
         return messages;
