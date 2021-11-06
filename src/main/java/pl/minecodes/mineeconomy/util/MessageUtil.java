@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.Collections;
+import java.util.stream.Collectors;
 
 public class MessageUtil {
 
@@ -42,14 +43,8 @@ public class MessageUtil {
     }
 
     public static List<String> implementColors(List<String> message) {
-        if (message == null || message.isEmpty()) {
-            return Collections.emptyList();
-        }
-        
-        //TODO 06/11/2021: Naprawić syf kod
-        List<String> messages = new ArrayList<>();
-        message.forEach(s -> messages.add(implementColors(s)));
-        return messages;
+        if (message == null || message.isEmpty()) return Collections.emptyList();
+        return message.stream().map(msg -> implementColors(msg)).collect(Collectors.toList());
     }
 
     public static String removeColor(String message) {
