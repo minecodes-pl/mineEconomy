@@ -22,3 +22,9 @@ jobs:
         restore-keys: ${{ runner.os }}-m2
     - name: Build with Maven
       run: mvn -B clean package --file pom.xml
+    - name: Create artifact
+      uses: 'actions/upload-artifact@v2'
+      with:
+        name: "${{ github.sha }}-JDK${{ matrix.java }}"
+        path: '*.jar'
+        if-no-files-found: error
