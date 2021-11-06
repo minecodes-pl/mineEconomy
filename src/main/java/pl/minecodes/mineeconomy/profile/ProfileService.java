@@ -35,9 +35,9 @@ public class ProfileService {
         Profile profile = this.dataService.loadData(uniqueId);
         if (profile == null) {
             return new Profile(uniqueId, this.configuration);
-        } else {
-            return profile;
-        }
+        } 
+        
+        return profile;
     }
 
     private void deleteProfile(Profile profile) {
