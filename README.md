@@ -1,31 +1,25 @@
-<a href="https://wakatime.com/badge/github/arturekdev/mineEconomy"><img src="https://wakatime.com/badge/github/arturekdev/mineEconomy.svg" alt="wakatime"></a><br>
-<b>mineEconomy</b> - Best economy plugin for you.
-<br>
-<br>
-<br>
-<br>
-<b>Database types</b>
-* mongoDb
-* MySQL
-<br>
+![logo](https://i.imgur.com/iXFSOEo.png)
 
-<br>
+![version](https://img.shields.io/badge/version-2.4.1-important?style=for-the-badge&color=b21e35)
+![contributors](https://img.shields.io/badge/contributors-4-important?style=for-the-badge&color=b21e35)
+![servers](https://img.shields.io/bstats/servers/8906?style=for-the-badge&color=b21e35)
+![players](https://img.shields.io/bstats/players/8906?style=for-the-badge&color=b21e35)
 
-<b>Placeholders (PlaceholderAPI)</b>
-* %mineEconomy_balance%
-<br>
 
-<br>
+### Database types
 
-<b>Player command</b>
+- MongoDb
+- MySQL
+
+### Placeholders (PlaceholderAPI)
+- %mineEconomy_balance%
+
+### Player command
 * <b>/balance\bal\account\money</b> - For check account balance.
 * <b>/transfer\pay <*username*> <*value*></b> - Transfer money to other players.
 * <b>/ranking</b> - Show top economy players.
-<br>
 
-<br>
-
-<b>Administrator commands</b>
+### Administrator commands
 * <b>/eco help</b> - Admin commands list.
 * <b>/eco check <*username*></b> - Check player balance.
 * <b>/eco clear <*username*></b> - Clear player balance.
