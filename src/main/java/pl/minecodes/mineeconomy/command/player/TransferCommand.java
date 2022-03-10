@@ -27,7 +27,7 @@ public class TransferCommand {
 
     @Execute(required = 2)
     public void executeTransfer(Player sender, @Arg(0) Player target, @Arg(1) Double value) {
-        AtomicDouble atomicValue = new AtomicDouble(Double.parseDouble(EconomyPlugin.FORMAT.format(value)));
+        AtomicDouble atomicValue = new AtomicDouble(value);
 
         Profile senderProfile = this.profileService.getProfile(sender.getUniqueId());
         if (!(senderProfile.has(atomicValue.get()))) {
@@ -46,7 +46,7 @@ public class TransferCommand {
             public void cancel(CancelReason reason) {
                 //ignore
             }
-        });
+        }, this.configuration.getRoundedScale());
 
         targetProfile.deposit(atomicValue.get(), new BalanceOperationCallback() {
             @Override
@@ -70,7 +70,7 @@ public class TransferCommand {
             public void cancel(CancelReason reason) {
                 MessageUtil.sendMessage(sender, messages.getBalanceOperationParameterIsNegative());
             }
-        });
+        }, this.configuration.getRoundedScale());
     }
 
 }

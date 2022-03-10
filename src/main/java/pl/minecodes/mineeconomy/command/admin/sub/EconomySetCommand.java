@@ -30,7 +30,7 @@ public class EconomySetCommand {
 
     @Execute(route = "set", required = 2)
     public void executeSet(CommandSender sender, @Arg(0) OfflinePlayer offlinePlayer, @Arg(1) Double balance) {
-        AtomicDouble atomicBalance = new AtomicDouble(Double.parseDouble(EconomyPlugin.FORMAT.format(balance)));
+        AtomicDouble atomicBalance = new AtomicDouble(balance);
 
         Profile profile = this.profileService.getProfile(offlinePlayer.getUniqueId());
         profile.setupBalance(atomicBalance.get(), new BalanceOperationCallback() {
@@ -47,6 +47,6 @@ public class EconomySetCommand {
             public void cancel(CancelReason reason) {
                 MessageUtil.sendMessage(sender, messages.getBalanceOperationParameterIsNegative());
             }
-        });
+        }, this.configuration.getRoundedScale());
     }
 }

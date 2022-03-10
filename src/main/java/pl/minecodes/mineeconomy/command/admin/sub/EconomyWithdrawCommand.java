@@ -30,7 +30,7 @@ public class EconomyWithdrawCommand {
 
     @Execute(route = "withdraw", required = 2)
     public void executeWithdraw(CommandSender sender, @Arg(0) OfflinePlayer offlinePlayer, @Arg(1) Double value) {
-        AtomicDouble atomicValue = new AtomicDouble(Double.parseDouble(EconomyPlugin.FORMAT.format(value)));
+        AtomicDouble atomicValue = new AtomicDouble(value);
 
         Profile profile = this.profileService.getProfile(offlinePlayer.getUniqueId());
         profile.withdraw(atomicValue.get(), new BalanceOperationCallback() {
@@ -57,6 +57,6 @@ public class EconomyWithdrawCommand {
                         break;
                 }
             }
-        });
+        }, this.configuration.getRoundedScale());
     }
 }

@@ -30,7 +30,7 @@ public class EconomyDepositCommand {
 
     @Execute(route = "deposit", required = 2)
     public void executeDeposit(CommandSender sender, @Arg(0) OfflinePlayer offlinePlayer, @Arg(1) Double value) {
-        AtomicDouble atomicValue = new AtomicDouble(Double.parseDouble(EconomyPlugin.FORMAT.format(value)));
+        AtomicDouble atomicValue = new AtomicDouble(value);
 
         Profile profile = this.profileService.getProfile(offlinePlayer.getUniqueId());
         profile.deposit(atomicValue.get(), new BalanceOperationCallback() {
@@ -47,6 +47,6 @@ public class EconomyDepositCommand {
             public void cancel(CancelReason reason) {
                 MessageUtil.sendMessage(sender, messages.getBalanceOperationParameterIsNegative());
             }
-        });
+        }, this.configuration.getRoundedScale());
     }
 }

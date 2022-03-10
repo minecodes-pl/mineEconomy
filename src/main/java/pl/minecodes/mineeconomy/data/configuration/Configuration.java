@@ -14,6 +14,8 @@ public class Configuration extends OkaeriConfig {
     private CurrencyPositionVault currencyPositionVault = CurrencyPositionVault.BEHIND;
     @Comment("Początkowy stan konta gracza.")
     private double startBalance = 10;
+    @Comment("Do ilu liczb po przecinku powinna być zaokrąglana kwota.")
+    private int roundedScale = 2;
     private DatabaseData databaseData = new DatabaseData();
 
 
@@ -62,4 +64,12 @@ public class Configuration extends OkaeriConfig {
     }
 
     public enum CurrencyPositionVault {AHEAD, BEHIND}
+
+    public int getRoundedScale() {
+        return roundedScale;
+    }
+
+    public void setRoundedScale(int roundedScale) {
+        this.roundedScale = roundedScale;
+    }
 }

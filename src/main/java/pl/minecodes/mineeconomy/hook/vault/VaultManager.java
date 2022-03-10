@@ -11,6 +11,8 @@ import pl.minecodes.mineeconomy.profile.Profile;
 import pl.minecodes.mineeconomy.profile.ProfileService;
 import pl.minecodes.mineeconomy.profile.helper.BalanceOperationCallback;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;
@@ -43,13 +45,14 @@ public class VaultManager implements Economy {
 
     @Override
     public String format(double value) {
+        double doubleValue = new BigDecimal(value).setScale(this.configuration.getRoundedScale(), RoundingMode.HALF_UP).doubleValue();
         switch (this.configuration.getCurrencyPositionVault()) {
             case AHEAD:
-                return this.configuration.getCurrency(value) + EconomyPlugin.FORMAT.format(value);
+                return this.configuration.getCurrency(doubleValue) + doubleValue;
             case BEHIND:
-                return EconomyPlugin.FORMAT.format(value) + this.configuration.getCurrency(value);
+                return doubleValue + this.configuration.getCurrency(doubleValue);
         }
-        return this.configuration.getCurrency(value) + EconomyPlugin.FORMAT.format(value);
+        return this.configuration.getCurrency(doubleValue) + doubleValue;
     }
 
     @Override
@@ -162,7 +165,7 @@ public class VaultManager implements Economy {
             public void cancel(CancelReason reason) {
                 economyResponse.set(new EconomyResponse(value, profile.getBalance(), EconomyResponse.ResponseType.FAILURE, reason.toString()));
             }
-        });
+        }, this.configuration.getRoundedScale());
         return economyResponse.get();
     }
 
@@ -181,7 +184,7 @@ public class VaultManager implements Economy {
             public void cancel(CancelReason reason) {
                 economyResponse.set(new EconomyResponse(value, profile.getBalance(), EconomyResponse.ResponseType.FAILURE, reason.toString()));
             }
-        });
+        }, this.configuration.getRoundedScale());
         return economyResponse.get();
     }
 
@@ -205,7 +208,7 @@ public class VaultManager implements Economy {
             public void cancel(CancelReason reason) {
                 economyResponse.set(new EconomyResponse(value, profile.getBalance(), EconomyResponse.ResponseType.FAILURE, reason.toString()));
             }
-        });
+        }, this.configuration.getRoundedScale());
         return economyResponse.get();
     }
 
@@ -224,7 +227,7 @@ public class VaultManager implements Economy {
             public void cancel(CancelReason reason) {
                 economyResponse.set(new EconomyResponse(value, profile.getBalance(), EconomyResponse.ResponseType.FAILURE, reason.toString()));
             }
-        });
+        }, this.configuration.getRoundedScale());
         return economyResponse.get();
     }
 
@@ -248,7 +251,7 @@ public class VaultManager implements Economy {
             public void cancel(CancelReason reason) {
                 economyResponse.set(new EconomyResponse(value, profile.getBalance(), EconomyResponse.ResponseType.FAILURE, reason.toString()));
             }
-        });
+        }, this.configuration.getRoundedScale());
         return economyResponse.get();
     }
 
@@ -267,7 +270,7 @@ public class VaultManager implements Economy {
             public void cancel(CancelReason reason) {
                 economyResponse.set(new EconomyResponse(value, profile.getBalance(), EconomyResponse.ResponseType.FAILURE, reason.toString()));
             }
-        });
+        }, this.configuration.getRoundedScale());
         return economyResponse.get();
     }
 
@@ -291,7 +294,7 @@ public class VaultManager implements Economy {
             public void cancel(CancelReason reason) {
                 economyResponse.set(new EconomyResponse(value, profile.getBalance(), EconomyResponse.ResponseType.FAILURE, reason.toString()));
             }
-        });
+        }, this.configuration.getRoundedScale());
         return economyResponse.get();
     }
 
@@ -310,7 +313,7 @@ public class VaultManager implements Economy {
             public void cancel(CancelReason reason) {
                 economyResponse.set(new EconomyResponse(value, profile.getBalance(), EconomyResponse.ResponseType.FAILURE, reason.toString()));
             }
-        });
+        }, this.configuration.getRoundedScale());
         return economyResponse.get();
     }
 
