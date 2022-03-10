@@ -1,12 +1,23 @@
 package pl.minecodes.mineeconomy;
 
-import co.aikar.commands.BukkitCommandManager;
-import co.aikar.commands.BukkitLocales;
+import dev.rollczi.litecommands.LiteCommands;
+import dev.rollczi.litecommands.bukkit.LiteBukkitFactory;
+import dev.rollczi.litecommands.valid.ValidationInfo;
 import eu.okaeri.injector.Injector;
 import eu.okaeri.injector.OkaeriInjector;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.minecodes.mineeconomy.command.admin.EconomyCommand;
+import pl.minecodes.mineeconomy.command.admin.sub.EconomyCheckCommand;
+import pl.minecodes.mineeconomy.command.admin.sub.EconomyClearCommand;
+import pl.minecodes.mineeconomy.command.admin.sub.EconomyDepositCommand;
+import pl.minecodes.mineeconomy.command.admin.sub.EconomySetCommand;
+import pl.minecodes.mineeconomy.command.admin.sub.EconomyWithdrawCommand;
+import pl.minecodes.mineeconomy.command.argument.DoubleArgument;
+import pl.minecodes.mineeconomy.command.argument.OfflinePlayerArgument;
+import pl.minecodes.mineeconomy.command.argument.PlayerArgument;
 import pl.minecodes.mineeconomy.command.player.BalanceCommand;
 import pl.minecodes.mineeconomy.command.player.RankingCommand;
 import pl.minecodes.mineeconomy.command.player.TransferCommand;
@@ -23,7 +34,6 @@ import pl.minecodes.mineeconomy.profile.ProfileService;
 import pl.minecodes.mineeconomy.runnable.ProfileSaveTask;
 
 import java.text.DecimalFormat;
-import java.util.Locale;
 
 public class EconomyPlugin extends JavaPlugin {
 
@@ -34,6 +44,8 @@ public class EconomyPlugin extends JavaPlugin {
     private Configuration configuration;
     private ProfileService profileService;
     private VaultHook vaultHook;
+
+    private LiteCommands liteCommands;
 
     @Override
     public void onEnable() {
@@ -89,18 +101,20 @@ public class EconomyPlugin extends JavaPlugin {
     }
 
     private void registerCommands() {
-        BukkitCommandManager commandManager = new BukkitCommandManager(this);
-        commandManager.registerCommand(this.injector.createInstance(BalanceCommand.class));
-        commandManager.registerCommand(this.injector.createInstance(EconomyCommand.class));
-        commandManager.registerCommand(this.injector.createInstance(TransferCommand.class));
-        commandManager.registerCommand(this.injector.createInstance(RankingCommand.class));
-
-        commandManager.getLocales().setDefaultLocale(Locale.ENGLISH);
-        BukkitLocales locales = commandManager.getLocales();
-        try {
-            locales.loadYamlLanguageFile(messages.getBindFile().toFile(), Locale.ENGLISH);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        this.liteCommands = LiteBukkitFactory.builder(this.getServer(), "mineEconomy")
+                .argument(OfflinePlayer.class, this.injector.createInstance(OfflinePlayerArgument.class))
+                .argument(Player.class, this.injector.createInstance(PlayerArgument.class))
+                .argument(Double.class, this.injector.createInstance(DoubleArgument.class))
+                .commandInstance(this.injector.createInstance(EconomyCommand.class))
+                .commandInstance(this.injector.createInstance(EconomySetCommand.class))
+                .commandInstance(this.injector.createInstance(EconomyDepositCommand.class))
+                .commandInstance(this.injector.createInstance(EconomyWithdrawCommand.class))
+                .commandInstance(this.injector.createInstance(EconomyClearCommand.class))
+                .commandInstance(this.injector.createInstance(EconomyCheckCommand.class))
+                .commandInstance(this.injector.createInstance(BalanceCommand.class))
+                .commandInstance(this.injector.createInstance(RankingCommand.class))
+                .commandInstance(this.injector.createInstance(TransferCommand.class))
+                .message(ValidationInfo.INVALID_USE, messageInfoContext -> this.messages.getCommandUsage().replace("{usage}", messageInfoContext.getUseScheme()))
+                .register();
     }
 }

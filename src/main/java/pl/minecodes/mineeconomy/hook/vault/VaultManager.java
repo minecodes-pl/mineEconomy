@@ -86,7 +86,7 @@ public class VaultManager implements Economy {
 
     @Override
     public double getBalance(String username) {
-        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayerIfCached(username);
+        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(username);
         if (offlinePlayer == null) return 0;
 
         Profile profile = this.profileService.getProfile(offlinePlayer.getUniqueId());
@@ -101,7 +101,7 @@ public class VaultManager implements Economy {
 
     @Override
     public double getBalance(String username, String world) {
-        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayerIfCached(username);
+        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(username);
         if (offlinePlayer == null) return 0;
 
         Profile profile = this.profileService.getProfile(offlinePlayer.getUniqueId());
@@ -116,7 +116,7 @@ public class VaultManager implements Economy {
 
     @Override
     public boolean has(String username, double value) {
-        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayerIfCached(username);
+        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(username);
         if (offlinePlayer == null) return false;
 
         Profile profile = this.profileService.getProfile(offlinePlayer.getUniqueId());
@@ -131,7 +131,7 @@ public class VaultManager implements Economy {
 
     @Override
     public boolean has(String username, String world, double value) {
-        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayerIfCached(username);
+        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(username);
         if (offlinePlayer == null) return false;
 
         Profile profile = this.profileService.getProfile(offlinePlayer.getUniqueId());
@@ -146,7 +146,7 @@ public class VaultManager implements Economy {
 
     @Override
     public EconomyResponse withdrawPlayer(String username, double value) {
-        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayerIfCached(username);
+        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(username);
         if (offlinePlayer == null) {
             return new EconomyResponse(value, 0, EconomyResponse.ResponseType.FAILURE, "OfflinePlayer is null.");
         }
@@ -189,7 +189,7 @@ public class VaultManager implements Economy {
 
     @Override
     public EconomyResponse withdrawPlayer(String username, String world, double value) {
-        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayerIfCached(username);
+        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(username);
         if (offlinePlayer == null) {
             return new EconomyResponse(value, 0, EconomyResponse.ResponseType.FAILURE, "OfflinePlayer is null.");
         }
@@ -232,7 +232,7 @@ public class VaultManager implements Economy {
 
     @Override
     public EconomyResponse depositPlayer(String username, double value) {
-        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayerIfCached(username);
+        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(username);
         if (offlinePlayer == null) {
             return new EconomyResponse(value, 0, EconomyResponse.ResponseType.FAILURE, "OfflinePlayer is null.");
         }
@@ -275,7 +275,7 @@ public class VaultManager implements Economy {
 
     @Override
     public EconomyResponse depositPlayer(String username, String world, double value) {
-        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayerIfCached(username);
+        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(username);
         if (offlinePlayer == null) {
             return new EconomyResponse(value, 0, EconomyResponse.ResponseType.FAILURE, "OfflinePlayer is null.");
         }
@@ -378,7 +378,7 @@ public class VaultManager implements Economy {
 
     @Override
     public boolean createPlayerAccount(String username) {
-        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayerIfCached(username);
+        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(username);
         if (offlinePlayer == null) return false;
 
         Profile profile = this.profileService.getProfile(offlinePlayer.getUniqueId());
@@ -393,7 +393,7 @@ public class VaultManager implements Economy {
 
     @Override
     public boolean createPlayerAccount(String username, String world) {
-        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayerIfCached(username);
+        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(username);
         if (offlinePlayer == null) return false;
 
         Profile profile = this.profileService.getProfile(offlinePlayer.getUniqueId());
