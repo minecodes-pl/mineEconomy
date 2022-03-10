@@ -33,11 +33,7 @@ import pl.minecodes.mineeconomy.hook.vault.VaultManager;
 import pl.minecodes.mineeconomy.profile.ProfileService;
 import pl.minecodes.mineeconomy.runnable.ProfileSaveTask;
 
-import java.text.DecimalFormat;
-
 public class EconomyPlugin extends JavaPlugin {
-
-    public static final DecimalFormat FORMAT = new DecimalFormat("#.##");
 
     private Injector injector;
     private Messages messages;
@@ -91,6 +87,9 @@ public class EconomyPlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        if (this.liteCommands != null) {
+            this.liteCommands.getPlatformManager().unregisterCommands();
+        }
         vaultHook.unregisterHook();
     }
 
@@ -117,4 +116,5 @@ public class EconomyPlugin extends JavaPlugin {
                 .message(ValidationInfo.INVALID_USE, messageInfoContext -> this.messages.getCommandUsage().replace("{usage}", messageInfoContext.getUseScheme()))
                 .register();
     }
+
 }

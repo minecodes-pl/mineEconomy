@@ -46,7 +46,7 @@ public class TransferCommand {
             public void cancel(CancelReason reason) {
                 //ignore
             }
-        });
+        }, this.configuration.getRoundedScale());
 
         targetProfile.deposit(atomicValue.get(), new BalanceOperationCallback() {
             @Override
@@ -70,7 +70,7 @@ public class TransferCommand {
             public void cancel(CancelReason reason) {
                 MessageUtil.sendMessage(sender, messages.getBalanceOperationParameterIsNegative());
             }
-        });
+        }, this.configuration.getRoundedScale());
     }
 
 }

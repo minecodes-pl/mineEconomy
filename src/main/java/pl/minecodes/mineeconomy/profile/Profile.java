@@ -5,6 +5,8 @@ import org.bukkit.OfflinePlayer;
 import pl.minecodes.mineeconomy.data.configuration.Configuration;
 import pl.minecodes.mineeconomy.profile.helper.BalanceOperationCallback;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.UUID;
 
 public class Profile {
@@ -37,18 +39,19 @@ public class Profile {
         return balance;
     }
 
-    public void deposit(double money, BalanceOperationCallback callback) {
+    public void deposit(double money, BalanceOperationCallback callback, int roundedScale) {
         if (money < 0) {
             callback.cancel(BalanceOperationCallback.CancelReason.NEGATIVE_PARAMETER);
             return;
         }
 
         callback.done();
-        this.balance += money;
+        BigDecimal decimal = new BigDecimal(money).setScale(roundedScale, RoundingMode.HALF_UP);
+        this.balance += decimal.doubleValue();
         this.needUpdate = true;
     }
 
-    public void withdraw(double money, BalanceOperationCallback callback) {
+    public void withdraw(double money, BalanceOperationCallback callback, int roundedScale) {
         if (this.balance < 0) {
             callback.cancel(BalanceOperationCallback.CancelReason.NEGATIVE_BALANCE);
             return;
@@ -63,18 +66,20 @@ public class Profile {
         }
 
         callback.done();
-        this.balance -= money;
+        BigDecimal decimal = new BigDecimal(money).setScale(roundedScale, RoundingMode.HALF_UP);
+        this.balance -= decimal.doubleValue();
         this.needUpdate = true;
     }
 
-    public void setupBalance(double balance, BalanceOperationCallback callback) {
+    public void setupBalance(double balance, BalanceOperationCallback callback, int roundedScale) {
         if (balance < 0) {
             callback.cancel(BalanceOperationCallback.CancelReason.NEGATIVE_PARAMETER);
             return;
         }
 
         callback.done();
-        this.balance = balance;
+        BigDecimal decimal = new BigDecimal(balance).setScale(roundedScale, RoundingMode.HALF_UP);
+        this.balance = decimal.doubleValue();
         this.needUpdate = true;
     }
 

@@ -47,6 +47,6 @@ public class EconomyDepositCommand {
             public void cancel(CancelReason reason) {
                 MessageUtil.sendMessage(sender, messages.getBalanceOperationParameterIsNegative());
             }
-        });
+        }, this.configuration.getRoundedScale());
     }
 }

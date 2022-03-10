@@ -57,6 +57,6 @@ public class EconomyWithdrawCommand {
                         break;
                 }
             }
-        });
+        }, this.configuration.getRoundedScale());
     }
 }
