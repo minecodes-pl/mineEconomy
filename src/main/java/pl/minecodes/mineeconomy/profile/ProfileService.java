@@ -17,10 +17,8 @@ public class ProfileService {
             .maximumSize(100)
             .build();
 
-    @Inject
-    private DataService dataService;
-    @Inject
-    private Configuration configuration;
+    @Inject private DataService dataService;
+    @Inject private Configuration configuration;
 
     public Profile getProfile(UUID uniqueId) {
         AtomicReference<Profile> atomicProfile = new AtomicReference<>(this.profilesCache.getIfPresent(uniqueId));

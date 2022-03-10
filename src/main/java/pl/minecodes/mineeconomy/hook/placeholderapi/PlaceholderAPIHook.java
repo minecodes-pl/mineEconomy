@@ -14,14 +14,10 @@ import java.util.logging.Logger;
 
 public class PlaceholderAPIHook extends PlaceholderExpansion {
 
-    @Inject
-    private Logger logger;
-    @Inject
-    private JavaPlugin plugin;
-    @Inject
-    private Configuration configuration;
-    @Inject
-    private ProfileService profileService;
+    @Inject private Logger logger;
+    @Inject private JavaPlugin plugin;
+    @Inject private Configuration configuration;
+    @Inject private ProfileService profileService;
 
     @Override
     public String getIdentifier() {

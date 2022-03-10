@@ -6,10 +6,8 @@ import pl.minecodes.mineeconomy.profile.ProfileService;
 
 public class ProfileSaveTask implements Runnable {
 
-    @Inject
-    private DataService dataService;
-    @Inject
-    private ProfileService profileService;
+    @Inject private DataService dataService;
+    @Inject private ProfileService profileService;
 
     @Override
     public void run() {

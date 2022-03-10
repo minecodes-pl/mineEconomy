@@ -10,12 +10,9 @@ import java.util.logging.Logger;
 
 public class VaultHook {
 
-    @Inject
-    private Logger logger;
-    @Inject
-    private JavaPlugin plugin;
-    @Inject
-    private VaultManager provider;
+    @Inject private Logger logger;
+    @Inject private JavaPlugin plugin;
+    @Inject private VaultManager provider;
 
     public void registerHook() {
         Bukkit.getServicesManager().register(Economy.class, this.provider, plugin, ServicePriority.Highest);

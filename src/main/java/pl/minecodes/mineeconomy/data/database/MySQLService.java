@@ -13,10 +13,8 @@ import java.util.logging.Logger;
 
 public class MySQLService implements DataService {
 
-    @Inject
-    private Logger logger;
-    @Inject
-    private Configuration configuration;
+    @Inject private Logger logger;
+    @Inject private Configuration configuration;
 
     private HikariDataSource dataSource;
     private Connection connection;

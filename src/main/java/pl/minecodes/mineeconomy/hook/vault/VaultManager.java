@@ -18,10 +18,8 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class VaultManager implements Economy {
 
-    @Inject
-    private Configuration configuration;
-    @Inject
-    private ProfileService profileService;
+    @Inject private Configuration configuration;
+    @Inject private ProfileService profileService;
 
     @Override
     public boolean isEnabled() {

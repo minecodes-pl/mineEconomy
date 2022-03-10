@@ -22,10 +22,8 @@ import java.util.logging.Logger;
 
 public class MongoDbService implements DataService {
 
-    @Inject
-    private Logger logger;
-    @Inject
-    private Configuration configuration;
+    @Inject private Logger logger;
+    @Inject private Configuration configuration;
 
     private MongoCollection<Document> mongoCollection;
 
