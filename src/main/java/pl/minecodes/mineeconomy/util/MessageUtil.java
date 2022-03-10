@@ -36,7 +36,7 @@ public class MessageUtil {
         }
         for (Matcher matcher = HEX_REGEX.matcher(message); matcher.find(); matcher = HEX_REGEX.matcher(message)) {
             String color = message.substring(matcher.start(), matcher.end());
-            message = message.replace(color, ChatColor.of(color) + "");
+            message = message.replace(color, ChatColor.valueOf(color) + "");
         }
 
         return ChatColor.translateAlternateColorCodes('&', message.replace("<<", "«").replace(">>", "»"));

@@ -1,10 +1,10 @@
 package pl.minecodes.mineeconomy.command.player;
 
-import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.*;
-import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.AtomicDouble;
+import dev.rollczi.litecommands.annotations.Arg;
+import dev.rollczi.litecommands.annotations.Execute;
+import dev.rollczi.litecommands.annotations.Section;
 import eu.okaeri.injector.annotation.Inject;
 import org.bukkit.entity.Player;
 import pl.minecodes.mineeconomy.EconomyPlugin;
@@ -16,23 +16,17 @@ import pl.minecodes.mineeconomy.profile.helper.BalanceOperationCallback;
 import pl.minecodes.mineeconomy.util.MessageUtil;
 import pl.minecodes.mineeconomy.util.Placeholders;
 
-import java.text.DecimalFormat;
 import java.util.Objects;
 
-@CommandAlias("transfer|pay")
-public class TransferCommand extends BaseCommand {
+@Section(route = "transfer", aliases = {"pay", "sendmoney"})
+public class TransferCommand {
 
-    @Inject
-    private Messages messages;
-    @Inject
-    private Configuration configuration;
-    @Inject
-    private ProfileService profileService;
+    @Inject private Messages messages;
+    @Inject private Configuration configuration;
+    @Inject private ProfileService profileService;
 
-    @Default
-    @Syntax("<username> <value>")
-    @CommandCompletion("@players 10|100|1000|10000")
-    public void onPlayerTransfer(Player sender, OnlinePlayer target, double value) {
+    @Execute(required = 2)
+    public void executeTransfer(Player sender, @Arg(0) Player target, @Arg(1) Double value) {
         AtomicDouble atomicValue = new AtomicDouble(Double.parseDouble(EconomyPlugin.FORMAT.format(value)));
 
         Profile senderProfile = this.profileService.getProfile(sender.getUniqueId());

@@ -24,9 +24,11 @@ public class Messages extends OkaeriConfig {
     private String balanceSuccessfullyTransferToTarget = "&aOtrzymałeś przelew w wysokości &e{value} {currency} &aod gracza &e{sender}";
     private String balanceAdministratorCheck = "&aStan konta gracza &e{player} &awynosi &e{balance} {currency}";
     private String balanceOperationParameterIsNegative = "&cPodana liczba jest mniejsza od zera.";
+    private String balanceOperationParameterIsNotCorrect = "&cPodana liczba jest nie poprawna.";
     private String balanceWithdrawNoFounds = "&cGracz nie posiada danej kwoty na koncie.";
     private String balanceIsNegative = "&cKonto gracza jest na minusie.";
     private String balanceNoFounds = "&cBrak wymaganych środków na koncie.";
+    private String commandUsage = "&cPoprawnie użycie komendy: {usage}";
 
     private String balanceRankingNullObject = "&cBrak danych.";
     private List<String> balanceRanking = new ArrayList<>(Arrays.asList(
