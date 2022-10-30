@@ -1,9 +1,9 @@
-![logo](https://i.imgur.com/iXFSOEo.png)
+![logo](https://i.imgur.com/zePuypf.png)
 
-![version](https://img.shields.io/badge/version-2.4.1-important?style=for-the-badge&color=b21e35)
-![contributors](https://img.shields.io/badge/contributors-4-important?style=for-the-badge&color=b21e35)
-![servers](https://img.shields.io/bstats/servers/8906?style=for-the-badge&color=b21e35)
-![players](https://img.shields.io/bstats/players/8906?style=for-the-badge&color=b21e35)
+![version](https://img.shields.io/badge/version-2.4.1-important?style=for-the-badge&color=ed0c6c)
+![contributors](https://img.shields.io/badge/contributors-4-important?style=for-the-badge&color=ed0c6c)
+![servers](https://img.shields.io/bstats/servers/8906?style=for-the-badge&color=ed0c6c)
+![players](https://img.shields.io/bstats/players/8906?style=for-the-badge&color=ed0c6c)
 
 
 ### Database types
