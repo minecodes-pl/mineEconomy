@@ -80,7 +80,7 @@
         <dependency>
             <groupId>dev.rollczi.litecommands</groupId>
             <artifactId>bukkit</artifactId>
-            <version>1.8.4</version>
+            <version>1.9.2</version>
         </dependency>
         <dependency>
             <groupId>com.github.ben-manes.caffeine</groupId>
